@@ -4,7 +4,7 @@
 ;;;   Created: 2002-07-22
 ;;;    Author: Gilbert Baumann <unk6@rz.uni-karlsruhe.de>
 ;;;   License: GPL (See file COPYING for details).
-;;;       $Id: clim-gui.lisp,v 1.7 2003-03-14 14:14:36 gilbert Exp $
+;;;       $Id: clim-gui.lisp,v 1.8 2003-03-14 17:06:16 dan Exp $
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 2002 by Gilbert Baumann
 
@@ -23,7 +23,10 @@
 ;;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 ;; $Log: clim-gui.lisp,v $
-;; Revision 1.7  2003-03-14 14:14:36  gilbert
+;; Revision 1.8  2003-03-14 17:06:16  dan
+;; replace defconstants for non-constant variables with defvar, to placate SBCL, which suffers from offensively ANSI behaviour with same
+;;
+;; Revision 1.7  2003/03/14 14:14:36  gilbert
 ;; adjusted frame-top-level loop
 ;;
 ;; Revision 1.6  2003/03/13 20:17:23  gilbert
@@ -357,9 +360,13 @@
 
 (defun send-closure-command (command &rest args)
   (ensure-closure)
+  #+sbcl
+  (error "unimplemented")
+  #-sbcl
   (with-closure ()
     (mp:process-interrupt *closure-process*
                           #'(lambda () (apply command args)))))
+
 
 (defun closure:visit (&optional (url closure:*home-page*))
   (and url (setf url (parse-url* url)))
