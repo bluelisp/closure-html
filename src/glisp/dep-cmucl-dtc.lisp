@@ -2,24 +2,29 @@
 ;;; ---------------------------------------------------------------------------
 ;;;     Title: CMUCL dependent stuff + fixups
 ;;;   Created: 1999-05-25 22:32
-;;;    Author: Gilbert Baumann <unk6@rz.uni-karlsruhe.de>
-;;;   License: GPL (See file COPYING for details).
+;;;    Author: Gilbert Baumann <gilbert@base-engineering.com>
+;;;   License: MIT style (see below)
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 1999 by Gilbert Baumann
 
-;;; This program is free software; you can redistribute it and/or modify
-;;; it under the terms of the GNU General Public License as published by
-;;; the Free Software Foundation; either version 2 of the License, or
-;;; (at your option) any later version.
-;;;
-;;; This program is distributed in the hope that it will be useful,
-;;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-;;; GNU General Public License for more details.
-;;;
-;;; You should have received a copy of the GNU General Public License
-;;; along with this program; if not, write to the Free Software
-;;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+;;;  Permission is hereby granted, free of charge, to any person obtaining
+;;;  a copy of this software and associated documentation files (the
+;;;  "Software"), to deal in the Software without restriction, including
+;;;  without limitation the rights to use, copy, modify, merge, publish,
+;;;  distribute, sublicense, and/or sell copies of the Software, and to
+;;;  permit persons to whom the Software is furnished to do so, subject to
+;;;  the following conditions:
+;;; 
+;;;  The above copyright notice and this permission notice shall be
+;;;  included in all copies or substantial portions of the Software.
+;;; 
+;;;  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+;;;  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+;;;  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. 
+;;;  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+;;;  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+;;;  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+;;;  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 (export 'glisp::read-byte-sequence :glisp)
 (export 'glisp::read-char-sequence :glisp)
@@ -156,7 +161,7 @@ Its result type is:
 On Wednesday, 7/1/98 12:48:51 pm [-1] it was compiled from:
 target:code/run-program.lisp
   Created: Saturday, 6/20/98 07:13:08 pm [-1]
-  Comment: $Header: /home/david/closure-cvs/cvsroot/closure/src/glisp/Attic/dep-cmucl-dtc.lisp,v 1.1 2002-07-22 02:27:22 gilbert Exp $
+  Comment: $Header: /home/david/closure-cvs/cvsroot/closure/src/glisp/Attic/dep-cmucl-dtc.lisp,v 1.2 2005-03-13 18:01:15 gbaumann Exp $
 ||#
 
 ;; (process-exit-code (run-program "/bin/sh" (list "-c" "ls") :wait t :input nil :output nil))
