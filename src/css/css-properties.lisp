@@ -4,7 +4,7 @@
 ;;;   Created: 1998-02-08
 ;;;    Author: Gilbert Baumann <unk6@rz.uni-karlsruhe.de>
 ;;;   License: GPL (See file COPYING for details).
-;;;       $Id: css-properties.lisp,v 1.3 2002-07-24 04:10:14 gilbert Exp $
+;;;       $Id: css-properties.lisp,v 1.4 2002-07-27 18:01:47 gilbert Exp $
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 1998-2002 by Gilbert Baumann
 
@@ -663,6 +663,9 @@
     :applicable-if (numberp value)
     :value         (cons '* value))
 
+(define-percentage-cooking line-height
+    :base (prop font-size))
+
 (define-cooking orig-width
     :applicable-if t
     :value         (prop width))
@@ -778,7 +781,10 @@
 (generate-setup-style)
 
 ;; $Log: css-properties.lisp,v $
-;; Revision 1.3  2002-07-24 04:10:14  gilbert
+;; Revision 1.4  2002-07-27 18:01:47  gilbert
+;; provided percentage cooking for line-height
+;;
+;; Revision 1.3  2002/07/24 04:10:14  gilbert
 ;; Whole file is now wraped into (eval-when (eval compile load) ...)
 ;; Fixing cold built.
 ;;
