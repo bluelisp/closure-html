@@ -4,7 +4,7 @@
 ;;;   Created: 2002-07-22
 ;;;    Author: Gilbert Baumann <unk6@rz.uni-karlsruhe.de>
 ;;;   License: GPL (See file COPYING for details).
-;;;       $Id: clim-gui.lisp,v 1.1 2002-07-22 02:27:22 gilbert Exp $
+;;;       $Id: clim-gui.lisp,v 1.2 2002-07-24 04:11:51 gilbert Exp $
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 2002 by Gilbert Baumann
 
@@ -23,8 +23,11 @@
 ;;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 ;; $Log: clim-gui.lisp,v $
-;; Revision 1.1  2002-07-22 02:27:22  gilbert
-;; Initial revision
+;; Revision 1.2  2002-07-24 04:11:51  gilbert
+;; Tex Mode On and Tex Mode Off commands
+;;
+;; Revision 1.1.1.1  2002/07/22 02:27:22  gilbert
+;; imported sources
 ;;
 
 (in-package :CLIM-USER)
@@ -576,3 +579,9 @@
   (com-visit-url (pop *test-urls*)))
 
 
+(define-closure-command com-tex-mode-on ()
+  (setf r2::*tex-mode-p* t)
+  (texpara::init-hyp))
+
+(define-closure-command com-tex-mode-off ()
+  (setf r2::*tex-mode-p* nil))
