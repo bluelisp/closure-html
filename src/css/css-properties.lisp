@@ -4,6 +4,7 @@
 ;;;   Created: 1998-02-08
 ;;;    Author: Gilbert Baumann <unk6@rz.uni-karlsruhe.de>
 ;;;   License: GPL (See file COPYING for details).
+;;;       $Id: css-properties.lisp,v 1.2 2002-07-22 10:15:44 gilbert Exp $
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 1998-2002 by Gilbert Baumann
 
@@ -24,6 +25,9 @@
 ;;;;;;;;;;;;;;;
 
 (in-package :CSS)
+
+(defparameter *cookings*
+  nil)
 
 ;;; ------------------------------------------------------------------------------------------
 ;;;  Some Default Values
@@ -766,4 +770,9 @@
 (generate-parsers)
 (register-parsers)
 (generate-setup-style)
+
+;; $Log: css-properties.lisp,v $
+;; Revision 1.2  2002-07-22 10:15:44  gilbert
+;; *COOKINGS* now is properly cleared.
+;;
 
