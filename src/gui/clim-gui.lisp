@@ -4,7 +4,7 @@
 ;;;   Created: 2002-07-22
 ;;;    Author: Gilbert Baumann <unk6@rz.uni-karlsruhe.de>
 ;;;   License: GPL (See file COPYING for details).
-;;;       $Id: clim-gui.lisp,v 1.8 2003-03-14 17:06:16 dan Exp $
+;;;       $Id: clim-gui.lisp,v 1.9 2003-03-16 17:46:19 gilbert Exp $
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 2002 by Gilbert Baumann
 
@@ -23,7 +23,10 @@
 ;;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 ;; $Log: clim-gui.lisp,v $
-;; Revision 1.8  2003-03-14 17:06:16  dan
+;; Revision 1.9  2003-03-16 17:46:19  gilbert
+;; we call xlib:display-finish-output when a page is finished.
+;;
+;; Revision 1.8  2003/03/14 17:06:16  dan
 ;; replace defconstants for non-constant variables with defvar, to placate SBCL, which suffers from offensively ANSI behaviour with same
 ;;
 ;; Revision 1.7  2003/03/14 14:14:36  gilbert
@@ -497,7 +500,7 @@
                            (clim:change-space-requirements *medium* :width x2 :height y2)
                            ;; While we are at it, force a repaint
                            (handle-repaint *medium* (sheet-region (pane-viewport *medium*)))
-                           )))))
+                           (xlib:display-finish-output (clim-clx::clx-port-display (find-port))) )))))
                  (write-status "Done."))))))
        (xlib:display-finish-output (clim-clx::clx-port-display (find-port)))))))
 
