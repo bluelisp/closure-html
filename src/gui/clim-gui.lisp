@@ -4,7 +4,7 @@
 ;;;   Created: 2002-07-22
 ;;;    Author: Gilbert Baumann <unk6@rz.uni-karlsruhe.de>
 ;;;   License: GPL (See file COPYING for details).
-;;;       $Id: clim-gui.lisp,v 1.3 2002-07-29 12:39:08 gilbert Exp $
+;;;       $Id: clim-gui.lisp,v 1.4 2002-08-16 17:20:50 gilbert Exp $
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 2002 by Gilbert Baumann
 
@@ -23,7 +23,10 @@
 ;;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 ;; $Log: clim-gui.lisp,v $
-;; Revision 1.3  2002-07-29 12:39:08  gilbert
+;; Revision 1.4  2002-08-16 17:20:50  gilbert
+;; url-entry fix
+;;
+;; Revision 1.3  2002/07/29 12:39:08  gilbert
 ;; - we pass more tests now
 ;;
 ;; Revision 1.2  2002/07/24 04:11:51  gilbert
@@ -290,7 +293,6 @@
   (clim-sys:make-process
    (lambda ()
      (window-clear *pane*)
-     (setf (gadget-value (find-pane-named *frame* 'url-entry)) url)
      (progn;;with-sheet-medium (medium *pane*)
        (let ((*medium* *pane*))
          (let ((device (make-instance 'closure/clim-device::clim-device :medium *medium*)))
