@@ -4,7 +4,7 @@
 ;;;   Created: 2002-07-22
 ;;;    Author: Gilbert Baumann <unk6@rz.uni-karlsruhe.de>
 ;;;   License: GPL (See file COPYING for details).
-;;;       $Id: clim-gui.lisp,v 1.10 2003-06-15 16:47:44 gilbert Exp $
+;;;       $Id: clim-gui.lisp,v 1.11 2003-06-15 17:24:24 gilbert Exp $
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 2002 by Gilbert Baumann
 
@@ -23,7 +23,10 @@
 ;;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 ;; $Log: clim-gui.lisp,v $
-;; Revision 1.10  2003-06-15 16:47:44  gilbert
+;; Revision 1.11  2003-06-15 17:24:24  gilbert
+;; fixes to the recent patches.
+;;
+;; Revision 1.10  2003/06/15 16:47:44  gilbert
 ;; OpenMCL patches by Patrik Nordebo
 ;;
 ;; Revision 1.9  2003/03/16 17:46:19  gilbert
@@ -371,7 +374,7 @@
   #+openmcl
   (with-closure ()
     (glisp::process-interrupt *closure-process*
-                          #'(lambda () (apply command args)))))
+                          #'(lambda () (apply command args))))
   #-(or sbcl openmcl)
   (with-closure ()
     (mp:process-interrupt *closure-process*
