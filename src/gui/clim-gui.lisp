@@ -4,7 +4,7 @@
 ;;;   Created: 2002-07-22
 ;;;    Author: Gilbert Baumann <gilbert@base-engineering.com>
 ;;;   License: MIT style (see below)
-;;;       $Id: clim-gui.lisp,v 1.14 2005-03-13 20:58:31 emarsden Exp $
+;;;       $Id: clim-gui.lisp,v 1.15 2005-03-13 21:15:06 emarsden Exp $
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 2002 by Gilbert Baumann
 
@@ -28,7 +28,11 @@
 ;;;  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ;; $Log: clim-gui.lisp,v $
-;; Revision 1.14  2005-03-13 20:58:31  emarsden
+;; Revision 1.15  2005-03-13 21:15:06  emarsden
+;; Add zoom support to the renderer, accessible via the commands com-zoom-in,
+;; com-zoom-out and com-zoom-100%.
+;;
+;; Revision 1.14  2005/03/13 20:58:31  emarsden
 ;;  - Update to new McCLIM requirements on DEFINE-xx-COMMAND, adding :name t
 ;;    so that commands are available from listener pane
 ;;
@@ -83,6 +87,7 @@
 
 (defvar closure:*home-page* "http://www.stud.uni-karlsruhe.de/~unk6/closure/user.html")
 (defvar closure:*user-wants-images-p* t)
+(defvar closure::*zoom-factor* 1.0)
 
 (defvar *closure-process* nil)
 
@@ -619,4 +624,20 @@
     (clim:window-clear (clim:frame-query-io clim:*application-frame*)))
 
 ;;;; ----------------------------------------------------------------------------------------------------
+
+
+(define-closure-command (com-zoom-100% :name t) ()
+  (setq closure::*zoom-factor* 1.0)
+  (send-closure-command 'com-reflow))
+
+;; FIXME the :shift here is a McCLIM bug
+(define-closure-command (com-zoom-in :name t :keystroke (#\+ :control :shift)) ()
+  (write-status "Zooming in...")
+  (setq closure::*zoom-factor* (* closure::*zoom-factor* 1.2))
+  (send-closure-command 'com-reflow))
+
+(define-closure-command (com-zoom-out :name t :keystroke (#\- :control :shift)) ()
+  (write-status "Zooming out...")
+  (setq closure::*zoom-factor* (* closure::*zoom-factor* 0.8))
+  (send-closure-command 'com-reflow))
 
