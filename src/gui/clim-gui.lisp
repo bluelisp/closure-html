@@ -4,7 +4,7 @@
 ;;;   Created: 2002-07-22
 ;;;    Author: Gilbert Baumann <unk6@rz.uni-karlsruhe.de>
 ;;;   License: GPL (See file COPYING for details).
-;;;       $Id: clim-gui.lisp,v 1.5 2003-03-13 19:29:17 gilbert Exp $
+;;;       $Id: clim-gui.lisp,v 1.6 2003-03-13 20:17:23 gilbert Exp $
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 2002 by Gilbert Baumann
 
@@ -23,7 +23,10 @@
 ;;; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 ;; $Log: clim-gui.lisp,v $
-;; Revision 1.5  2003-03-13 19:29:17  gilbert
+;; Revision 1.6  2003-03-13 20:17:23  gilbert
+;; CLX bug: xlib:put-image grind to halt when the image is widther than 2048 pixels.
+;;
+;; Revision 1.5  2003/03/13 19:29:17  gilbert
 ;; lots of hacking
 ;;
 ;; Revision 1.4  2002/08/16 17:20:50  gilbert
@@ -53,8 +56,7 @@
 
 (defvar *closure-process* nil)
 
-(defclass closure-pane (sheet-multiple-child-mixin
-                        application-pane)
+(defclass closure-pane (application-pane)
   ())
 
 ;;; Curde History
@@ -92,6 +94,7 @@
     :interactor
     :foreground +black+
     :background (make-rgb-color 1 1 7/8)
+    :text-style (make-text-style :sans-serif nil :normal)
     :height 50 :min-height 50 :max-height 50
     :scroll-bars nil :border nil)
    (wholine
@@ -200,7 +203,7 @@
                 (*command-parser* command-parser)
                 (*command-unparser* command-unparser)
                 (*partial-command-parser* partial-command-parser)
-                (prompt-style (make-text-style :fix :italic :normal)))
+                (prompt-style (make-text-style :sans-serif :bold :normal)))
             (map-over-sheets #'(lambda (pane)
                                  (if (and (typep pane 'clim-stream-pane)
                                           (eq (climi::pane-display-time pane) :command-loop)
@@ -426,11 +429,11 @@
           :very-large 18
           :huge 24))
   (gui::init-closure)
-  ;;;+XXX
+  #+NIL
   (loop for port in climi::*all-ports*
         do (destroy-port port))
   (setq climi::*all-ports* nil)
-  ;;;-XXX
+  ;;
   (setf *frame* (make-application-frame 'closure))
   (setf *pane*  (find-pane-named *frame* 'canvas))
   (setf *closure-process*
