@@ -4,7 +4,7 @@
 ;;;   Created: 2003-03-08
 ;;;    Author: Gilbert Baumann <gilbert@base-engineering.com>
 ;;;   License: MIT style (see below)
-;;;       $Id: clim-draw.lisp,v 1.3 2005-03-13 21:39:19 emarsden Exp $
+;;;       $Id: clim-draw.lisp,v 1.4 2005-07-11 15:57:56 crhodes Exp $
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 1997-2003 by Gilbert Baumann
 
@@ -171,14 +171,14 @@
     (dolist (deco text-decoration)
       (case deco
         (:underline
-         (clim:draw-line* clim-user::*medium*
+         (clim:draw-line* clim-user::*pane*
           xx1 (+ yy 2) xx (+ yy 2) :ink (clim-user::parse-x11-color color)))
         (:overline
          ;; xxx hack
-         (clim:draw-line* clim-user::*medium*
+         (clim:draw-line* clim-user::*pane*
           xx1 (- yy 12) xx (- yy 12) :ink (clim-user::parse-x11-color color)))
         (:line-through
-         (clim:draw-line* clim-user::*medium*
+         (clim:draw-line* clim-user::*pane*
           xx1 (- yy 6) xx (- yy 6) :ink (clim-user::parse-x11-color color))) ))))
 
 ;;;; Runes
