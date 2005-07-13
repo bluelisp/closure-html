@@ -4,7 +4,7 @@
 ;;;   Created: somewhen late 2002
 ;;;    Author: Gilbert Baumann <gilbert@base-engineering.com>
 ;;;   License: MIT style (see below)
-;;;       $Id: renderer2.lisp,v 1.9 2005-07-11 15:57:56 crhodes Exp $
+;;;       $Id: renderer2.lisp,v 1.10 2005-07-13 13:44:55 crhodes Exp $
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 1997-2003 by Gilbert Baumann
 
@@ -538,7 +538,7 @@ used by the table renderer.")
                            (replaced-object-chunk
                             (let ((ro (replaced-object-chunk-object chunk)))
                               (when (eql pass 1)
-                                (closure/clim-device::medium-draw-ro*
+                                (closure/clim-device::draw-ro*
                                  clim-user::*pane*
                                  ro x (+ dy y)))
                               (incf x (chunk-width chunk))) )))))
@@ -4968,7 +4968,19 @@ border-spacing between the spaned columns is included."
 
 
 ;; $Log: renderer2.lisp,v $
-;; Revision 1.9  2005-07-11 15:57:56  crhodes
+;; Revision 1.10  2005-07-13 13:44:55  crhodes
+;; Make images work, more or less.
+;;
+;; * restore horrible grecording hack for (medium-)draw-ro*
+;;
+;; * make direct drawing of images to x11 work with my X server (32bpp even
+;; for 24-depth images)
+;;
+;; Obviously this should turn into proper clim support for images, at which
+;; point this horribleness can go away.  However, this now basically works
+;; for me, modulo compiler consistency strangeness at startup.
+;;
+;; Revision 1.9  2005/07/11 15:57:56  crhodes
 ;; Complete the renaming *MEDIUM* -> *PANE*.
 ;;
 ;; Panes are CLIM extended-streams, and remember output to them in output
