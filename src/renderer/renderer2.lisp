@@ -4,7 +4,7 @@
 ;;;   Created: somewhen late 2002
 ;;;    Author: Gilbert Baumann <gilbert@base-engineering.com>
 ;;;   License: MIT style (see below)
-;;;       $Id: renderer2.lisp,v 1.12 2005-07-19 20:42:09 emarsden Exp $
+;;;       $Id: renderer2.lisp,v 1.13 2005-08-08 19:28:20 crhodes Exp $
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 1997-2003 by Gilbert Baumann
 
@@ -368,6 +368,7 @@ used by the table renderer.")
   chunks)                               ;their chunks
 
 (defparameter *debug-tags* nil)
+(defparameter *debug-tables* t)
 
 (defun chunk-debug-name (chunk)
   (format nil (if (bounding-chunk-halfp chunk)
@@ -4968,7 +4969,11 @@ border-spacing between the spaned columns is included."
 
 
 ;; $Log: renderer2.lisp,v $
-;; Revision 1.12  2005-07-19 20:42:09  emarsden
+;; Revision 1.13  2005-08-08 19:28:20  crhodes
+;; tables.lisp isn't loaded by the .asd file.  Move *debug-tables* to
+;; renderer2.lisp instead.
+;;
+;; Revision 1.12  2005/07/19 20:42:09  emarsden
 ;; More removal of spurious debugging output, and conditionalization of
 ;; some output on *debug-tables*
 ;;
