@@ -4,7 +4,7 @@
 ;;;   Created: somewhen late 2002
 ;;;    Author: Gilbert Baumann <gilbert@base-engineering.com>
 ;;;   License: MIT style (see below)
-;;;       $Id: renderer2.lisp,v 1.14 2005-08-25 15:03:54 crhodes Exp $
+;;;       $Id: renderer2.lisp,v 1.15 2006-11-06 19:43:01 thenriksen Exp $
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 1997-2003 by Gilbert Baumann
 
@@ -4707,7 +4707,7 @@ border-spacing between the spaned columns is included."
 
 ;; test44: a few problems with inline images:
 ;;             . vertical border and padding is not accounted for in line height calculation
-;;             . border and image coördinates are out of synch vertically.
+;;             . border and image coordinates are out of synch vertically.
 ;;     => We need to talk again about geometry.
 ;;
 ;;     The "bottom" of a replaced object is the bottom including margin, padding and border.
@@ -4969,7 +4969,10 @@ border-spacing between the spaned columns is included."
 
 
 ;; $Log: renderer2.lisp,v $
-;; Revision 1.14  2005-08-25 15:03:54  crhodes
+;; Revision 1.15  2006-11-06 19:43:01  thenriksen
+;; Remove compiler-killing evil character from comment.
+;;
+;; Revision 1.14  2005/08/25 15:03:54  crhodes
 ;; turn off table debugging
 ;;
 ;; Revision 1.13  2005/08/08 19:28:20  crhodes
