@@ -4,7 +4,7 @@
 ;;;   Created: 1998-06-18
 ;;;    Author: Gilbert Baumann <gilbert@base-engineering.com>
 ;;;   License: MIT style (see below)
-;;;       $Id: css-setup.lisp,v 1.4 2005-03-13 18:00:58 gbaumann Exp $
+;;;       $Id: css-setup.lisp,v 1.5 2006-12-26 14:19:18 emarsden Exp $
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 1998-2002 by Gilbert Baumann
 
@@ -394,10 +394,8 @@
                            'new-interpret-length)
                      (round (* a dpi 12) 72))
                     (t
-                     (* a font-size))
-                    (t
-                     (round (* a dpi 12) 72))))
-	     (:ex 
+                     (* a font-size))))
+	     (:ex
               (cond ((and pt (not (realp font-size)))
                      (warn "In ~S: font-size not available -- fix your programm."
                            'new-interpret-length)
@@ -459,7 +457,10 @@
 
 
 ;; $Log: css-setup.lisp,v $
-;; Revision 1.4  2005-03-13 18:00:58  gbaumann
+;; Revision 1.5  2006-12-26 14:19:18  emarsden
+;; Trivial bugfixes.
+;;
+;; Revision 1.4  2005/03/13 18:00:58  gbaumann
 ;; Gross license change
 ;;
 ;; Revision 1.3  2003/03/13 19:29:17  gilbert
