@@ -4,7 +4,7 @@
 ;;;   Created: long ago
 ;;;    Author: Gilbert Baumann <gilbert@base-engineering.com>
 ;;;   License: MIT style (see below)
-;;;       $Id: renderer.lisp,v 1.10 2005-03-13 18:03:25 gbaumann Exp $
+;;;       $Id: renderer.lisp,v 1.11 2006-12-29 21:29:39 dlichteblau Exp $
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 1997-2002 by Gilbert Baumann
 
@@ -91,15 +91,15 @@
 
 (defvar +list-style-type-glyphs/disc+
     (list ;;u/black-circle u/bullet u/white-bullet u/white-circle
-          (char-code #\o)))
+          (char-rune #\o)))
 
 (defvar +list-style-type-glyphs/circle+
     (list ;;u/white-circle u/white-bullet u/bullet u/black-circle
-          (char-code #\*)))
+          (char-rune #\*)))
 
 (defvar +list-style-type-glyphs/square+
     (list ;;u/black-square u/white-square u/white-bullet u/bullet
-          (char-code #\-)))
+          (char-rune #\-)))
 
 
 ;;;;
@@ -117,7 +117,7 @@
 ;;; ---- Believed to be correct -----------------------------------------------
 
 (defsubst rune-width (font rune)
-  (css-font-desc-glyph-width font rune))
+  (css-font-desc-glyph-width font (rune-code rune)))
 
 (defun parse-url* (url)
   (cond ((url:url-p url) url)
