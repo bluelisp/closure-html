@@ -4,7 +4,7 @@
 ;;;   Created: 2002-07-22
 ;;;    Author: Gilbert Baumann <gilbert@base-engineering.com>
 ;;;   License: MIT style (see below)
-;;;       $Id: clim-gui.lisp,v 1.22 2005-08-25 15:14:14 crhodes Exp $
+;;;       $Id: clim-gui.lisp,v 1.23 2006-12-29 17:37:07 dlichteblau Exp $
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 2002 by Gilbert Baumann
 
@@ -28,7 +28,14 @@
 ;;;  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ;; $Log: clim-gui.lisp,v $
-;; Revision 1.22  2005-08-25 15:14:14  crhodes
+;; Revision 1.23  2006-12-29 17:37:07  dlichteblau
+;; Make closure start on Gtkairo:
+;;
+;; 	* src/gui/clim-gui.lisp (WRITE-STATUS, FOO, COM-REDRAW): Replace
+;;         calls to xlib:display-finish-output with
+;;         clim-backend:port-force-output.
+;;
+;; Revision 1.22  2005/08/25 15:14:14  crhodes
 ;; OpenMCL support (from Dave Murray aka JQS)
 ;;
 ;; Revision 1.21  2005/08/25 15:05:48  crhodes
@@ -514,7 +521,7 @@
 (defun write-status (string)
   (window-clear (find-pane-named *frame* 'status))
   (write-string string (find-pane-named *frame* 'status))
-  (xlib:display-finish-output (clim-clx::clx-port-display (find-port))))
+  (clim-backend:port-force-output (find-port)))
 
 (defun foo (url)
   (let ((*standard-output* *trace-output*))
@@ -561,9 +568,9 @@
                          (clim:change-space-requirements *pane* :width x2 :height y2)
                          ;; While we are at it, force a repaint
                          (handle-repaint *pane* (sheet-region (pane-viewport *pane*)))
-                         (xlib:display-finish-output (clim-clx::clx-port-display (find-port))))))))
+                         (clim-backend:port-force-output (find-port)))))))
                #+nil (write-status "Done.")))))
-       #+nil (xlib:display-finish-output (clim-clx::clx-port-display (find-port)))))))
+       #+nil (clim-backend:port-force-output (find-port))))))
 
 (defun reflow ()
   (let ((*standard-output* *trace-output*))
@@ -684,5 +691,5 @@
 (define-closure-command (com-redraw :name t :keystroke (#\r :control)) ()
   (let* ((*pane* (find-pane-named *frame* 'canvas)) )
     (handle-repaint *pane* (sheet-region (pane-viewport *pane*))))
-  (xlib:display-finish-output (clim-clx::clx-port-display (find-port))))
+  (clim-backend:port-force-output (find-port)))
 
