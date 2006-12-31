@@ -161,7 +161,7 @@ Its result type is:
 On Wednesday, 7/1/98 12:48:51 pm [-1] it was compiled from:
 target:code/run-program.lisp
   Created: Saturday, 6/20/98 07:13:08 pm [-1]
-  Comment: $Header: /home/david/closure-cvs/cvsroot/closure/src/glisp/dep-scl.lisp,v 1.1 2006-12-31 13:11:44 dlichteblau Exp $
+  Comment: $Header: /home/david/closure-cvs/cvsroot/closure/src/glisp/dep-scl.lisp,v 1.2 2006-12-31 15:42:40 dlichteblau Exp $
 ||#
 
 ;; (process-exit-code (run-program "/bin/sh" (list "-c" "ls") :wait t :input nil :output nil))
@@ -172,41 +172,5 @@ target:code/run-program.lisp
 
 ;;; MP
 
-(export 'glisp::mp/process-yield :glisp)
-(export 'glisp::mp/process-wait :glisp)
-(export 'glisp::mp/process-run-function :glisp)
-(export 'glisp::mp/make-lock :glisp)
-(export 'glisp::mp/current-process :glisp)
-(export 'glisp::mp/process-kill :glisp)
-
-(defun glisp::mp/make-lock (&key name)
-  (pthread::make-lock name))
-
-(defmacro glisp::mp/with-lock ((lock) &body body)
-  `(pthread::with-lock-held (,lock)
-     ,@body))
-
-(defun glisp::mp/process-yield (&optional process-to-run)
-  (declare (ignore process-to-run))
-  (PTHREAD:SCHED-YIELD))
-
-(defun glisp::mp/process-wait (whostate predicate)
-  (do ()
-      ((funcall predicate))
-    (sleep .1)))
-
-(defun glisp::mp/process-run-function (name fun &rest args)
-  (pthread::thread-create
-   (lambda ()
-     (apply fun args))
-   :name name))
-
-(defun glisp::mp/current-process ()
-  'blah)
-
-(defun glisp::mp/process-kill (process)
-  (warn "*** Define GLISP:MP/PROCESS-KILL for CMUCL."))
-
 (defun glisp::getenv (string)
   (cdr (assoc string ext:*environment-list* :test #'string-equal)))
-
