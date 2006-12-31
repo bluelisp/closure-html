@@ -161,18 +161,13 @@ Its result type is:
 On Wednesday, 7/1/98 12:48:51 pm [-1] it was compiled from:
 target:code/run-program.lisp
   Created: Saturday, 6/20/98 07:13:08 pm [-1]
-  Comment: $Header: /home/david/closure-cvs/cvsroot/closure/src/glisp/Attic/dep-cmucl-dtc.lisp,v 1.2 2005-03-13 18:01:15 gbaumann Exp $
+  Comment: $Header: /home/david/closure-cvs/cvsroot/closure/src/glisp/Attic/dep-cmucl-dtc.lisp,v 1.3 2006-12-31 12:14:36 dlichteblau Exp $
 ||#
 
 ;; (process-exit-code (run-program "/bin/sh" (list "-c" "ls") :wait t :input nil :output nil))
 
 (defun glisp:run-unix-shell-command (command)
   (ext:process-exit-code (ext:run-program "/bin/sh" (list "-c" command) :wait t :input nil :output nil)))
-
-(defmacro glisp::defsubst (name args &body body)
-  `(progn
-     (declaim (inline ,name))
-     (defun ,name ,args .,body)))
 
 
 ;;; MP
