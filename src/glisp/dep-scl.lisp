@@ -1,6 +1,6 @@
 ;;; -*- Mode: Lisp; Syntax: Common-Lisp; Package: CL-USER; -*-
 ;;; ---------------------------------------------------------------------------
-;;;     Title: CMUCL dependent stuff + fixups
+;;;     Title: [Originally CMUCL dependent stuff + fixups], probably for SCL
 ;;;   Created: 1999-05-25 22:32
 ;;;    Author: Gilbert Baumann <gilbert@base-engineering.com>
 ;;;   License: MIT style (see below)
@@ -161,7 +161,7 @@ Its result type is:
 On Wednesday, 7/1/98 12:48:51 pm [-1] it was compiled from:
 target:code/run-program.lisp
   Created: Saturday, 6/20/98 07:13:08 pm [-1]
-  Comment: $Header: /home/david/closure-cvs/cvsroot/closure/src/glisp/Attic/dep-cmucl-dtc.lisp,v 1.3 2006-12-31 12:14:36 dlichteblau Exp $
+  Comment: $Header: /home/david/closure-cvs/cvsroot/closure/src/glisp/dep-scl.lisp,v 1.1 2006-12-31 13:11:44 dlichteblau Exp $
 ||#
 
 ;; (process-exit-code (run-program "/bin/sh" (list "-c" "ls") :wait t :input nil :output nil))
