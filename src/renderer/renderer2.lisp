@@ -4,7 +4,7 @@
 ;;;   Created: somewhen late 2002
 ;;;    Author: Gilbert Baumann <gilbert@base-engineering.com>
 ;;;   License: MIT style (see below)
-;;;       $Id: renderer2.lisp,v 1.18 2007-01-05 11:19:30 crhodes Exp $
+;;;       $Id: renderer2.lisp,v 1.19 2007-01-05 23:10:33 emarsden Exp $
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 1997-2003 by Gilbert Baumann
 
@@ -3086,7 +3086,7 @@ border-spacing between the spaned columns is included."
           for i fixnum from 0 do
           (cond
             ,@(AND (EQL :PRE WHITE-SPACE)
-                   (list `((eql c #/U+0010)
+                   (list `((eql c #/U+000A)
                            (let ((ocontext context))
                              ,(OR LETTER-SPACING-APPLICABLE-P
                                   '(unless (= blacki i)
@@ -4983,7 +4983,10 @@ border-spacing between the spaned columns is included."
 
 
 ;; $Log: renderer2.lisp,v $
-;; Revision 1.18  2007-01-05 11:19:30  crhodes
+;; Revision 1.19  2007-01-05 23:10:33  emarsden
+;; Fix rendering of preformatted content.
+;;
+;; Revision 1.18  2007/01/05 11:19:30  crhodes
 ;; Rune fixes for TeX Mode
 ;;
 ;; Revision 1.17  2006/12/30 15:13:55  emarsden
