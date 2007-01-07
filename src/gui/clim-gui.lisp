@@ -4,7 +4,7 @@
 ;;;   Created: 2002-07-22
 ;;;    Author: Gilbert Baumann <gilbert@base-engineering.com>
 ;;;   License: MIT style (see below)
-;;;       $Id: clim-gui.lisp,v 1.29 2007-01-03 16:14:57 emarsden Exp $
+;;;       $Id: clim-gui.lisp,v 1.30 2007-01-07 19:32:06 emarsden Exp $
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 2002 by Gilbert Baumann
 
@@ -28,7 +28,10 @@
 ;;;  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ;; $Log: clim-gui.lisp,v $
-;; Revision 1.29  2007-01-03 16:14:57  emarsden
+;; Revision 1.30  2007-01-07 19:32:06  emarsden
+;; Follow HTTP redirects (HTML-level redirects still not supported).
+;;
+;; Revision 1.29  2007/01/03 16:14:57  emarsden
 ;; - new function RENDER-LHTML that renders LHTML
 ;; - new command "Inspect Page" that runs Clouseau on the current document
 ;;
@@ -601,8 +604,13 @@
                (setf (sheet-pointer-cursor *pane*) :busy)
                (setq url (r2::parse-url* url))
                (let ((request (clue-gui2::make-request :url url :method :get)))
-                 (multiple-value-bind (io header) (clue-gui2::open-document-4 request)
-                   (write-status "Fetching Document ...")
+                 (write-status "Fetching Document ...")
+                 (multiple-value-bind (io header)
+                     (clue-gui2::open-document-4 request)
+                   (let ((new-location (netlib::get-header-field header :location)))
+                     (when new-location
+                       (unless (string-equal new-location (url:unparse-url url))
+                         (setq url (url:parse-url new-location)))))
                    (let* ((doc (make-instance 'r2::document
                                               :processes-hooks nil
                                               :location (r2::parse-url* url)
