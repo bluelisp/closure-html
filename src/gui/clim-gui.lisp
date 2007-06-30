@@ -4,7 +4,7 @@
 ;;;   Created: 2002-07-22
 ;;;    Author: Gilbert Baumann <gilbert@base-engineering.com>
 ;;;   License: MIT style (see below)
-;;;       $Id: clim-gui.lisp,v 1.31 2007-02-04 15:10:01 dlichteblau Exp $
+;;;       $Id: clim-gui.lisp,v 1.32 2007-06-30 14:00:04 dlichteblau Exp $
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 2002 by Gilbert Baumann
 
@@ -28,7 +28,12 @@
 ;;;  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 ;; $Log: clim-gui.lisp,v $
-;; Revision 1.31  2007-02-04 15:10:01  dlichteblau
+;; Revision 1.32  2007-06-30 14:00:04  dlichteblau
+;; New argument new-process to run-closure, which can be disabled to run
+;; closure in a "blocking" mode.  Needed for clbuild, which wants to (quit)
+;; after the application is done.
+;;
+;; Revision 1.31  2007/02/04 15:10:01  dlichteblau
 ;; Tabbed browsing.
 ;;
 ;; Revision 1.30  2007/01/07 19:32:06  emarsden
@@ -587,7 +592,7 @@
       (clim-sys:process-wait "Waiting for closure init" 
                              (lambda () *closure-inited-p*)))))
 
-(defun run-closure ()
+(defun run-closure (&key (new-process t))
   ;; Care for proxy
   (let* ((proxy (glisp:getenv "http_proxy"))
          (url   (and proxy (url:parse-url proxy))))
@@ -618,17 +623,20 @@
           :huge 24))
   (gui::init-closure)
   ;;
-  (setf *closure-process*
-        (clim-sys:make-process
-         (lambda ()
-           (unwind-protect
-                (progn
-                  (setf *frame* (make-application-frame 'closure))
-                  (setf *pane*  nil)
-                  (run-frame-top-level *frame*))
-             (ignore-errors (ws/netlib::commit-cache))
-             (setf *closure-process* nil)))
-         :name "Closure")))
+  (flet ((run-frame ()
+	   (unwind-protect
+		(progn
+		  (setf *frame* (make-application-frame 'closure))
+		  (setf *pane*  nil)
+		  (run-frame-top-level *frame*))
+	     (ignore-errors (ws/netlib::commit-cache))
+	     (setf *closure-process* nil))))
+    (cond (new-process
+	   (setf *closure-process*
+		 (clim-sys:make-process #'run-frame :name "Closure")))
+	  (t
+	   (setf *closure-process* (clim-sys:current-process))
+	   (run-frame)))))
 
 (defun write-status (string)
   (window-clear (find-pane-named *frame* 'status))
