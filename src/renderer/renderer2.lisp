@@ -4,7 +4,7 @@
 ;;;   Created: somewhen late 2002
 ;;;    Author: Gilbert Baumann <gilbert@base-engineering.com>
 ;;;   License: MIT style (see below)
-;;;       $Id: renderer2.lisp,v 1.19 2007-01-05 23:10:33 emarsden Exp $
+;;;       $Id: renderer2.lisp,v 1.20 2007-07-01 12:16:44 dlichteblau Exp $
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 1997-2003 by Gilbert Baumann
 
@@ -1196,7 +1196,7 @@ mounted floating boxen."
 (defun format-block (item x1 x2 ss before-markers #||# pos-vertical-margin neg-vertical-margin yy)
   (let (res)
     (setf (block-box-output-record item)
-          (clim:with-new-output-record (clim-user::*pane*) foo
+          (clim:with-new-output-record (clim-user::*pane*) #+nil foo
               (setf res
                     (multiple-value-list
                         (case (cooked-style-display (block-box-style item))
@@ -4983,7 +4983,10 @@ border-spacing between the spaned columns is included."
 
 
 ;; $Log: renderer2.lisp,v $
-;; Revision 1.19  2007-01-05 23:10:33  emarsden
+;; Revision 1.20  2007-07-01 12:16:44  dlichteblau
+;; Patch by Christophe Rhodes on closure-devel <87ejk2sngi.fsf@cantab.net>
+;;
+;; Revision 1.19  2007/01/05 23:10:33  emarsden
 ;; Fix rendering of preformatted content.
 ;;
 ;; Revision 1.18  2007/01/05 11:19:30  crhodes
