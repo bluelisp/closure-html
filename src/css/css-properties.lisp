@@ -4,7 +4,7 @@
 ;;;   Created: 1998-02-08
 ;;;    Author: Gilbert Baumann <gilbert@base-engineering.com>
 ;;;   License: MIT style (see below)
-;;;       $Id: css-properties.lisp,v 1.8 2005-03-13 18:00:58 gbaumann Exp $
+;;;       $Id: css-properties.lisp,v 1.9 2007-07-07 15:03:56 dlichteblau Exp $
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 1998-2002 by Gilbert Baumann
 
@@ -54,7 +54,7 @@
 (defparameter *normal-line-height*	'1.2)
 (defparameter *initial-font-family*	'("times"))
 (defparameter *initial-color*		'"#000")
-;; 3/2 ist eigentlich etwas bißchen heftig!
+;; 3/2 ist eigentlich etwas bisschen heftig!
 (defparameter *font-scaling-factor*	3/2)
 (defparameter *medium-font-size*	'(:pt . 12))
 
@@ -597,7 +597,7 @@
 ;; wir koennten jedoch sehr leicht auch noch union(...),
 ;; intersection(...), difference(...), 
 ;; everything, nothing
-;; anbieten. (Könnten wir aus Spaß ja mal machen).
+;; anbieten. (Koennten wir aus Spass ja mal machen).
 
 
 ;;; ------------------------------------------------------------------------------------------
@@ -942,7 +942,10 @@
 
 
 ;; $Log: css-properties.lisp,v $
-;; Revision 1.8  2005-03-13 18:00:58  gbaumann
+;; Revision 1.9  2007-07-07 15:03:56  dlichteblau
+;; Umlaute raus!
+;;
+;; Revision 1.8  2005/03/13 18:00:58  gbaumann
 ;; Gross license change
 ;;
 ;; Revision 1.7  2003/03/14 17:06:16  dan
