@@ -386,7 +386,7 @@
 ;;;;  SGML resources (how is this called in reality?)
 ;;;;
 
-(defparameter *simple-catalog* nil)
+(defvar *simple-catalog* nil)
 
 (defun open-sgml-resource (name-space &rest more)
   (ecase name-space
