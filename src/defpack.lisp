@@ -76,7 +76,8 @@
 	   #:find-mime-type-from-extension
 	   #:mime-type-name
            #:find-mime-type
-	   #:mime-type-equal))
+	   #:mime-type-equal
+	   #:mime-type-extensions))
 
 (defpackage :sgml
   (:use :cl :html-glisp :runes)
