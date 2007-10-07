@@ -1,25 +1,25 @@
 (in-package :closure-html)
 
-(defparameter *this-file*
-  (load-time-value
-   (or #.*compile-file-pathname* *load-pathname*)))
-
-(defparameter *this-directory*
-  (make-pathname :directory (pathname-directory *this-file*)))
-
 (defparameter sgml::*simple-catalog*
-  (loop :for (name . filename)
-     :in '(("-//W3O//DTD W3 HTML 3.0//EN" . "dtd/HTML-3.0")
-           ("NETSCAPE-Bookmark-file-1" . "dtd/NETSCAPE-Bookmark-file-1")
-           ("-//W3C//ENTITIES Special//EN//HTML" . "dtd/Entities-Special")
-           ("-//W3C//ENTITIES Symbols//EN//HTML" . "dtd/Entities-Symbols")
-           ("-//W3C//ENTITIES Latin1//EN//HTML" . "dtd/Entities-Latin1")
-           ("-//W3C//DTD HTML 4.0 Frameset//EN" . "dtd/DTD-HTML-4.0-Frameset")
-           ("-//W3C//DTD HTML 4.0//EN" . "dtd/DTD-HTML-4.0")
-           ("-//W3C//DTD HTML 4.0 Transitional//EN" . "dtd/DTD-HTML-4.0-Transitional"))
-     :collect (cons name (merge-pathnames filename *this-directory*))))
+  (let ((base
+	 (merge-pathnames
+	  "resources/"
+	  (asdf:component-relative-pathname
+	   (asdf:find-system :closure-html)))))
+    (loop
+       :for (name . filename)
+       :in '(("-//W3O//DTD W3 HTML 3.0//EN" . "dtd/HTML-3.0")
+	     ("NETSCAPE-Bookmark-file-1" . "dtd/NETSCAPE-Bookmark-file-1")
+	     ("-//W3C//ENTITIES Special//EN//HTML" . "dtd/Entities-Special")
+	     ("-//W3C//ENTITIES Symbols//EN//HTML" . "dtd/Entities-Symbols")
+	     ("-//W3C//ENTITIES Latin1//EN//HTML" . "dtd/Entities-Latin1")
+	     ("-//W3C//DTD HTML 4.0 Frameset//EN" . "dtd/DTD-HTML-4.0-Frameset")
+	     ("-//W3C//DTD HTML 4.0//EN" . "dtd/DTD-HTML-4.0")
+	     ("-//W3C//DTD HTML 4.0 Transitional//EN" . "dtd/DTD-HTML-4.0-Transitional"))
+       :collect (cons name (merge-pathnames filename base)))))
 
-(defparameter *html-dtd* (sgml:parse-dtd '(:public "-//W3C//DTD HTML 4.0 Frameset//EN")))
+(defparameter *html-dtd*
+  (sgml:parse-dtd '(:public "-//W3C//DTD HTML 4.0 Frameset//EN")))
 
 (defun parse (inputstr)
   "given a string, produce a sgml:pt, which would be your toplevel parse tree node"

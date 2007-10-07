@@ -42,4 +42,4 @@
     (iterate pt)))
 
 (defun parse-html-to-lhtml (html)
-  (cxml-pt-to-lhtml (parse-html html)))
+  (cxml-pt-to-lhtml (parse html)))
