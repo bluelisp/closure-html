@@ -395,14 +395,7 @@
     (:cdata  (apply #'make-string-input-stream more)) ))
 
 (defun open-system-resource (filename)
-  (cond ((url:url-p filename)
-         (multiple-value-bind (io header) (netlib::open-document-2 filename)
-           (declare (ignore header))
-           (unwind-protect
-               (make-string-input-stream (glisp::gstream-as-string io))
-             (g/close io))))
-        (t
-         (open filename :direction :input))))
+  (open filename :direction :input))
 
 (defun open-public-resource (name &optional system-fallback)
   (open-sgml-resource :system
@@ -410,6 +403,7 @@
 			       system-fallback
 			       (error "I do not know where to fetch PUBLIC \"~A\"." name)))))
 
+#+nil
 (defun slurp-catalog (catalog-url)
   ;; Really dirty implementation
   (setf *simple-catalog* nil)
