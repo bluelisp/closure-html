@@ -31,19 +31,14 @@
   (:use :cl)
   (:export #:parse))
 
-(defpackage "GLISP"
+(defpackage :html-glisp
   (:use :cl)
-  (:export "DEFSUBST"
-
-           ;; util.lisp :
-           "ALWAYS"
+  (:export "ALWAYS"
            "CL-BYTE-STREAM"
            "CL-CHAR-STREAM"
            "CL-STREAM"
            "COMPOSE"
            "CURRY"
-           "FALSE"
-           "FORCE"
            "G/CLOSE"
            "G/FINISH-OUTPUT"
            "G/PEEK-CHAR"
@@ -60,26 +55,8 @@
            "G/WRITE-CHAR"
            "G/WRITE-STRING"
            "GSTREAM"
-           "MAP-ARRAY"
-           "MAPFCAR"
-           "MAX*"
-           "MAXF"
-           "MIN*"
-           "MINF"
            "MULTIPLE-VALUE-OR"
-           "MULTIPLE-VALUE-SOME"
-           "NCONCF"
-           "NEQ"
-           "PROMISE"
            "RCURRY"
-           "SANIFY-STRING"
-           "SHOW"
-           "SPLIT-BY"
-           "SPLIT-BY-IF"
-           "SPLIT-BY-MEMBER"
-           "SPLIT-STRING"
-           "STRING-BEGIN-EQUAL"
-           "TRUE"
            "UNTIL"
            "USE-BYTE-FOR-CHAR-STREAM-FLAVOUR"
            "USE-CHAR-FOR-BYTE-STREAM-FLAVOUR"
@@ -89,40 +66,16 @@
            "CL-BYTE-STREAM->GSTREAM"
            "CL-CHAR-STREAM->GSTREAM"
 
-           "FIND-TEMPORARY-FILE"
-           "DELETE-TEMPORARY-FILE"
-           "WITH-TEMPORARY-FILE"
-
-           "SET-EQUAL"
-           "MAYBE-PARSE-INTEGER"
-           "NOP"
-           "WITH-STRUCTURE-SLOTS"
-
-           "COMPILE-FUNCALL"
-           "FUNCALL*"
-           "MAPC*"
-           "VREDUCE*"
-           "LREDUCE*"
-           "WITH-UNIQUE-NAMES"
-
-           "G/MAKE-HASH-TABLE"
-           "G/HASHGET"
-           "G/CLRHASH"
-           "STIR-HASH-CODES"
-           "HASH-SEQUENCE"
-           "HASH/STRING-EQUAL"
-           "MAKE-STRING-EQUAL-HASH-TABLE"
-
-           "PRIMEP"))
+           "MAYBE-PARSE-INTEGER"))
 
 (defpackage :closure-mime-types
-  (:use :cl :glisp ;; white-space-p
+  (:use :cl :html-glisp ;; white-space-p
         )
   (:export #:parse-mime-content-type    ;### yet to be defined
            #:find-mime-type))
 
 (defpackage :sgml
-  (:use :cl :glisp :runes)
+  (:use :cl :html-glisp :runes)
   (:export #:SGML-PARSE 
            #:PPT 
            #:SGML-UNPARSE 

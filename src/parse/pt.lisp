@@ -66,7 +66,7 @@
      (format stream "<~A~{ ~A=~S~}~A>"
       (gi object)
       (mapcar (lambda (x)
-                (if (glisp::rodp x) (rod-string x) x))
+                (if (html-glisp::rodp x) (rod-string x) x))
               (pt-attrs object))
       (if (null (pt-children object)) "/" ""))))
   (when (pt-children object)

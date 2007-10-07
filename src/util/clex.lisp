@@ -27,7 +27,7 @@
 ;;;  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 (defpackage :clex
-  (:use :cl :glisp :runes)
+  (:use :cl :html-glisp :runes)
   (:export
    #:deflexer #:backup #:begin #:initial #:bag))
 

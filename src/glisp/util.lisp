@@ -34,7 +34,7 @@
 ;;                        subforms
 ;;
 
-(in-package :GLISP)
+(in-package :HTML-GLISP)
 
 ;;; --------------------------------------------------------------------------------
 ;;;  Meta functions

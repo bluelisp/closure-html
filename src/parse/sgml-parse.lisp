@@ -257,11 +257,11 @@
 (defun make-a-stream (&key cl-stream)
   (runes:make-xstream cl-stream :initial-speed 1 :speed 8192))
 
-(defmethod runes::read-octets (sequence (stream glisp:gstream) start end)
-  (glisp:g/read-byte-sequence sequence stream :start start :end end))
+(defmethod runes::read-octets (sequence (stream html-glisp:gstream) start end)
+  (html-glisp:g/read-byte-sequence sequence stream :start start :end end))
 
-(defmethod runes::xstream/close ((stream glisp:gstream))
-  (glisp:g/close stream))
+(defmethod runes::xstream/close ((stream html-glisp:gstream))
+  (html-glisp:g/close stream))
 
 ;; a fake definition -- XXX non-reentrant!
 
