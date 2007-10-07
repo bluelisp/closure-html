@@ -1,0 +1,120 @@
+<page>
+  <p>An HTML parser written in Common Lisp.</p>
+
+  <h3>About</h3>
+
+  <p>
+    Closure HTML was written
+    by <a href="http://www.stud.uni-karlsruhe.de/~unk6/">Gilbert
+    Baumann</a> as part of the Closure web browser.  It was first
+    converted into a stand-alone installation by Ignas Mikalajūnas, and
+    finally rebuilt for use with the Closure browser by
+    <a href="mailto:david@lichteblau.com">David Lichteblau</a> under its
+    current name.
+  </p>
+  <p>
+    It available under an MIT-style license.
+  </p>      
+
+  <p>
+    Please send bug reports
+    to <a href="mailto:closure-devel@common-lisp.net">
+      closure-devel@common-lisp.net</a>
+    (<a href="http://common-lisp.net/cgi-bin/mailman/listinfo/closure-devel">list information</a>).
+  </p>
+
+  <h3>Download</h3>
+  <p>
+    <strike>
+    Download a
+    <a href="http://common-lisp.net/project/closure/download/">tarball</a>.
+    </strike>
+    (Not available yet.)
+  </p>
+
+  <h3>Installation</h3>
+  <p>
+    Closure HTML needs
+    <a href="http://www.cliki.net/closure-common">closure-common</a>
+    from cxml CVS and <a href="http://weitz.de/flexi-streams/">flexi-streams</a>.
+    <a href="http://www.cliki.net/asdf">ASDF</a> is used for
+    compilation.  Register the .asd file, e.g. by symlinking it, then
+    compile cxml-stp using <tt>asdf:operate</tt>.
+  </p>
+  <pre>$ ln -sf `pwd`/closure-html.asd /path/to/your/registry/
+* (asdf:operate 'asdf:load-op :closure-html)</pre>
+
+  <h3>Documentation</h3>
+  <p>
+    <strike>
+    <a href="doc/pages/closure-html.html">API documentation</a>
+    </strike>
+    (Not written yet.)
+  </p>
+
+  <h3>Example</h3>
+  <p>
+    Trivial example:
+  </p>
+  <pre class="code">
+CL-USER&gt; (closure-html:parse "&lt;p&gt;Hey ho&lt;/p&gt;")
+#&lt;SGML:PT HTML ..&gt;
+</pre>
+
+<!--
+  <h3>Comparison to Closure XML</h3>
+  <p>
+    The Closure browser uses Closure XML and Closure HTML.  In turn,
+    both parsers depend on closure-common.
+  </p>
+  <table cellspacing="0">
+    <tr>
+      <td style="border-bottom: 2px solid black;
+		 border-right: 2px solid black;
+		 padding: 3px">
+      </td>
+      <td style="border-bottom: 2px solid black;
+		 border-right: 1px solid black;
+		 padding: 3px">
+	Closure XML
+      </td>
+      <td style="border-bottom: 2px solid black;
+		 padding: 3px">
+	Closure HTML
+      </td>
+    </tr>
+    <tr>
+      <td style="border-bottom: 1px solid black;
+		 border-right: 2px solid black;
+		 padding: 3px">
+	Purpose
+      </td>
+      <td style="border-bottom: 1px solid black;
+		 border-right: 1px solid black;
+		 padding: 3px">
+	XML parser
+      </td>
+      <td style="border-bottom: 1px solid black;
+		 padding: 3px">
+	HTML parser
+      </td>
+    </tr>
+    <tr>
+      <td style="border-bottom: 1px solid black;
+		 border-right: 2px solid black;
+		 padding: 3px">
+	Strictness
+      </td>
+      <td style="border-bottom: 1px solid black;
+		 border-right: 1px solid black;
+		 padding: 3px">
+	Strictly correct (non-wellformed XML rejected)
+      </td>
+      <td style="border-bottom: 1px solid black;
+		 padding: 3px">
+	Lax (Tries to accept broken HTML)
+      </td>
+    </tr>
+  </table>
+-->
+</page>
