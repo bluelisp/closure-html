@@ -27,9 +27,13 @@
   <p>
     <strike>
     Download a
-    <a href="http://common-lisp.net/project/closure/download/">tarball</a>.
-    </strike>
+    <a href="http://common-lisp.net/project/closure/download/">tarball</a>.</strike>
     (Not available yet.)
+  </p>
+  <p>
+    <a href="http://repo.or.cz/w/closure-html.git">
+      Get it from repo.or.cz using git.
+    </a>
   </p>
 
   <h3>Installation</h3>
@@ -47,8 +51,7 @@
   <h3>Documentation</h3>
   <p>
     <strike>
-    <a href="doc/pages/closure-html.html">API documentation</a>
-    </strike>
+    <a href="doc/pages/closure-html.html">API documentation</a></strike>
     (Not written yet.)
   </p>
 
