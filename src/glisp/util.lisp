@@ -440,7 +440,7 @@
 
 (defmethod g/read-byte-sequence (sequence (input cl-byte-stream) &key (start 0) (end (length sequence)))
   (with-slots (cl-stream) input
-    (read-byte-sequence sequence cl-stream :start start :end end)))
+    (read-sequence sequence cl-stream :start start :end end)))
 
 (defmethod g/write-byte-sequence (sequence (sink cl-byte-stream) &key (start 0) (end (length sequence)))
   (with-slots (cl-stream) sink
@@ -906,7 +906,9 @@ Hmm unter PCL geht das nicht            ;-(
 
 
 (defun gstream-as-string (gstream &optional (buffer-size 4096))
-  (let ((buffer (g/make-string buffer-size :adjustable t)))
+  (let ((buffer (make-array buffer-size
+			    :element-type 'character
+			    :adjustable t)))
     (do* ((i 0 j)
           (j (g/read-char-sequence buffer gstream :start 0 :end buffer-size)
              (g/read-char-sequence buffer gstream :start i :end (+ i buffer-size)) ))

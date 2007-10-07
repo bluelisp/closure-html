@@ -288,28 +288,3 @@
   (or (eq putative-ancestor (pt-parent node))
       (and (not (null (pt-parent node)))
            (ancestorp (pt-parent node) putative-ancestor))))
-
-
-;;;;; The Basic Closure Element Protocol
-
-(defmethod closure-protocol:element-p ((object pt))
-  t)
-
-(defmethod closure-protocol:element-parent ((element pt))
-  (pt-parent element))
-
-(defmethod closure-protocol:element-children ((element pt))
-  (pt-children element))
-
-(defmethod closure-protocol:element-attribute ((element pt) attribute-name)
-  (getf (sgml:pt-attrs element) attribute-name))
-
-(defmethod closure-protocol:element-gi ((element pt))
-  (gi element))
-
-(defmethod closure-protocol:text-element-p ((element pt))
-  (eql (gi element) :pcdata))
-
-(defmethod closure-protocol:element-text ((element pt))
-  (assert (eql (sgml:gi element) :pcdata))
-  (pt-attrs element))

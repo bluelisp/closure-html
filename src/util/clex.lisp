@@ -543,7 +543,10 @@
                (SUB-STATE 'INITIAL)
                (STATE NIL)
                (LOOK-AHEAD NIL)
-               (BAGG/CH (G/MAKE-STRING 100 :FILL-POINTER 0 :ADJUSTABLE T))
+               (BAGG/CH (MAKE-ARRAY 100
+				    :ELEMENT-TYPE 'CHARACTER
+				    :FILL-POINTER 0
+				    :ADJUSTABLE T))
                (BAGG/STATE (MAKE-ARRAY 100 :FILL-POINTER 0 :ADJUSTABLE T))
                (CH NIL))
               #'(LAMBDA ()

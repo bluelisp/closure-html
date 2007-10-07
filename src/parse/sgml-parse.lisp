@@ -1590,7 +1590,7 @@
 ;;  
 
 (defun setup-code-vector (input charset)
-  (let ((enc (cxml::find-encoding charset)))
+  (let ((enc (runes-encoding:find-encoding charset)))
     (cond ((not (null enc))
            (setf (runes:xstream-encoding input) enc))
           (t
