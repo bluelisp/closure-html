@@ -174,17 +174,17 @@
 
 ;; Most of these should really go into util.lisp
 
-(defsubst name-start-rune-p (char)
+(definline name-start-rune-p (char)
   (or (rune<= #/a char #/z)
       (rune<= #/A char #/Z)))
 
-(defsubst name-rune-p (char)
+(definline name-rune-p (char)
   (or (name-start-rune-p char)
       (digit-rune-p char) 
       (rune= char #/.) 
       (rune= char #/-)))
 
-(defsubst sloopy-name-rune-p (char)
+(definline sloopy-name-rune-p (char)
   (or (name-rune-p char)
       (rune= char #/%)
       (rune= char #//)      ;manche schreiben ganze urls ohne Gaensefuesschen
@@ -207,21 +207,21 @@
       (rune= char #/])
       (rune= char #/&) ))
 
-(defsubst sloopy-value-rune-p (char)
+(definline sloopy-value-rune-p (char)
   (or (sloopy-name-rune-p char)
       (rune= char #/=)))
 
-(defsubst alpha-rune-p (char)
+(definline alpha-rune-p (char)
   (or (rune<= #/a char #/z)
       (rune<= #/A char #/Z)))
 
-(defsubst upcase-name-rune (rune)
+(definline upcase-name-rune (rune)
   (rune-upcase rune))
 
 ;;;; --------------------------------------------------------------------------
 ;;;;  Rod Utilities
 
-(defsubst subseq/rod (source start end)
+(definline subseq/rod (source start end)
   ;; Optimized version of subseq for arrays of runes
   (declare (type rod source)
            (type fixnum start end))
@@ -1001,7 +1001,8 @@
     (let ((content-type (getf attrs :content)))
       (and content-type
            (multiple-value-bind (type subtype parameters)
-               (netlib:parse-mime-content-type (rod-string content-type))
+               (closure-mime-types:parse-mime-content-type
+		(rod-string content-type))
              (declare (ignore type subtype))
              (let ((cs (assoc :charset parameters :test #'string-equal)))
                (when cs

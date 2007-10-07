@@ -41,9 +41,6 @@
 (define-compiler-macro neq (x y)
   `(not (eq ,x ,y)))
 
-(defmacro defsubst (name args &body body)
-  `(runes:definline ,name ,args ,@body))
-
 ;;; --------------------------------------------------------------------------------
 ;;;  Meta functions
 

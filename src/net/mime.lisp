@@ -26,7 +26,7 @@
 ;;;  TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 ;;;  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-(in-package :NETLIB)
+(in-package :closure-mime-types)
 
 (defstruct mime-type
   name          ;the name of the mime type, a string; e.g. "image/tiff"
