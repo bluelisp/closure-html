@@ -1301,7 +1301,7 @@
         neu))))
 
 (defun parse-html (input &optional (charset :iso-8859-1))
-  (let ((dtd cl-user::*html-dtd*))
+  (let ((dtd closure-html:*html-dtd*))
     (let ((input (runes:make-xstream input :initial-speed 1 :speed 128)))
       (setf (a-stream-scratch input)
         (make-array #.(* 2 *buf-size*) :element-type 'rune))
@@ -1613,7 +1613,7 @@
     (parse-html input)))
 ||#
 
-(defun check-saneness (pt &optional (dtd cl-user::*html-dtd*))
+(defun check-saneness (pt &optional (dtd closure-html:*html-dtd*))
   (dolist (k (pt-children pt))
     (unless (member (gi k) (elm-inclusion dtd (gi pt)))
       (warn "Unallowed ~A element within ~A." (gi k) (gi pt)))
@@ -1707,7 +1707,7 @@
   (with-open-file (sink "/tmp/t.html" 
                    :direction :output
                    :if-exists :new-version)
-    (let ((dtd cl-user::*html-dtd*))
+    (let ((dtd closure-html:*html-dtd*))
       (let ((p (shortest-path dtd :BODY offending)))
         (let ((p2 (shortest-path dtd offending :PCDATA)))
           (format sink "~A<BR>~%" offending)
@@ -1734,9 +1734,9 @@
 
 (defun bluu ()
   (let ((i 0))
-    (dolist (off (all-elms cl-user::*html-dtd*))
-      (cond (t '(or (member :B (elm-inclusion cl-user::*html-dtd* off))
-                 (member :P (elm-inclusion cl-user::*html-dtd* off)))
+    (dolist (off (all-elms closure-html:*html-dtd*))
+      (cond (t '(or (member :B (elm-inclusion closure-html:*html-dtd* off))
+                 (member :P (elm-inclusion closure-html:*html-dtd* off)))
              (blah off)
              (format T "~&;; ~A" off)
              (open-in-netscape "file:/tmp/t.html")
@@ -1746,7 +1746,7 @@
              (sleep 1))
             (t
              (format T "~&;; Skipping ~A, because inclusion is ~A."
-                     off (elm-inclusion cl-user::*html-dtd* off)))))))
+                     off (elm-inclusion closure-html:*html-dtd* off)))))))
 ||#
 
 (defun equivalence-classes (prediate set)
@@ -1783,7 +1783,7 @@
 
 #||
 (defun bloo ()
-  (let ((dtd cl-user::*html-dtd*))
+  (let ((dtd closure-html:*html-dtd*))
     (equivalence-classes (lambda (x y)
                            (and (set-equal (elm-inclusion dtd x) (elm-inclusion dtd y))
                                 (set-equal (elm-surclusion dtd x) (elm-surclusion dtd y))))

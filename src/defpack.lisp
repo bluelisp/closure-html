@@ -29,7 +29,8 @@
 
 (defpackage :closure-html
   (:use :cl)
-  (:export #:parse))
+  (:export #:*html-dtd*
+	   #:parse))
 
 (defpackage :html-glisp
   (:use :cl)
@@ -72,11 +73,15 @@
   (:use :cl :html-glisp ;; white-space-p
         )
   (:export #:parse-mime-content-type    ;### yet to be defined
-           #:find-mime-type))
+	   #:find-mime-type-from-extension
+	   #:mime-type-name
+           #:find-mime-type
+	   #:mime-type-equal))
 
 (defpackage :sgml
   (:use :cl :html-glisp :runes)
   (:export #:SGML-PARSE 
+	   #:PT
            #:PPT 
            #:SGML-UNPARSE 
            #:PARSE-DTD
