@@ -47,19 +47,22 @@
 ;;;; Events
 
 (defmethod hax:start-document ((sink sink) name public-id system-id)
-  (%write-rod #"<!DOCTYPE " sink)
-  (%write-rod name sink)
-  (cond
-    ((not (zerop (length public-id)))
-     (%write-rod #" PUBLIC \"" sink)
-     (unparse-string public-id sink)
-     (%write-rod #"\" \"" sink)
-     (unparse-string system-id sink)
-     (%write-rod #"\"" sink))
-    ((not (zerop (length system-id)))
-     (%write-rod #" SYSTEM \"" sink)
-     (unparse-string system-id sink)
-     (%write-rod #"\"" sink))))
+  (when (plusp (length system-id))
+    (%write-rod #"<!DOCTYPE " sink)
+    (%write-rod name sink)
+    (cond
+      ((plusp (length public-id))
+       (%write-rod #" PUBLIC \"" sink)
+       (unparse-string public-id sink)
+       (%write-rod #"\" \"" sink)
+       (unparse-string system-id sink)
+       (%write-rod #"\"" sink))
+      (t
+       (%write-rod #" SYSTEM \"" sink)
+       (unparse-string system-id sink)
+       (%write-rod #"\"" sink)))
+    (%write-rod #">" sink)
+    (%write-rune #/U+000A sink)))
 
 (defmethod hax:end-document ((sink sink))
   (close-ystream (sink-ystream sink)))
@@ -72,11 +75,12 @@
     (%write-rune #/< sink)
     (%write-rod name sink)
     (dolist (a attributes)
-      (%write-rune #/space sink)
-      (%write-rod (hax:attribute-name a) sink)
-      (let* ((akey (find-symbol (string-upcase name) :keyword))
+      (let* ((aname (hax:attribute-name a))
+	     (akey (find-symbol (string-upcase aname) :keyword))
 	     (att (and akey (assoc akey attlist)))
 	     (values (second att)))
+	(%write-rune #/space sink)
+	(%write-rod aname sink)
 	(unless (and att (listp values) (eq (car att) (car values)))
 	  (%write-rune #/= sink)
 	  (%write-rune #/\" sink)
@@ -92,8 +96,7 @@
     (unless (rod= prev-name name)
       (error "output does not nest: expected ~A but got ~A"
              name prev-name))
-    (unless (and (sgml::element-include elt)
-		 (null (sgml::element-include elt)))
+    (unless (and elt (null (sgml::element-include elt)))
       (%write-rod '#.(string-rod "</") sink)
       (%write-rod name sink)
       (%write-rod '#.(string-rod ">") sink))))
@@ -160,13 +163,18 @@
 (defvar *current-element*)
 (defvar *sink*)
 
-(defmacro with-html-output ((sink &optional pubid sysid) &body body)
-  `(invoke-with-html-output (lambda () ,@body) ,sink ,pubid ,sysid))
+(defmacro with-html-output
+    ((sink &key (name "HTML") public-id system-id) &body body)
+  `(invoke-with-html-output (lambda () ,@body)
+			    ,sink
+			    ,name
+			    ,public-id
+			    ,system-id))
 
-(defun invoke-with-xml-output (fn sink pubid sysid)
+(defun invoke-with-html-output (fn sink name pubid sysid)
   (let ((*sink* sink)
         (*current-element* nil))
-    (hax:start-document *sink* "HTML" pubid sysid)
+    (hax:start-document *sink* name pubid sysid)
     (funcall fn)
     (hax:end-document *sink*)))
 
