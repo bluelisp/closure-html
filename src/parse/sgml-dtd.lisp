@@ -610,6 +610,9 @@
 
 ;;; -------------------------------------------------------------------------------------------
 
+(defun set-equal (x y &rest options)
+  (null (apply #'set-exclusive-or x y options)))
+
 (defun elms-eqv (dtd x y)
   ;; zwei elms sind genau dann aequivalent, wenn inclusion und surclusion gleich sind.
   (and (set-equal (elm-inclusion dtd x) (elm-inclusion dtd y))

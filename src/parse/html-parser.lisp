@@ -57,6 +57,7 @@
 	(make-array #.(* 2 4096) :element-type 'runes:rune))
   (sgml::setup-code-vector input :utf-8)
   (let* ((dtd *html-dtd*)
+	 (sgml::*unmungle-attribute-case* t)
 	 (r (sgml:sgml-parse dtd input))
 	 (pt (sgml::post-mortem-heuristic dtd r)))
     (if handler
@@ -90,6 +91,17 @@
 ;;; 		    (merge-pathnames (or pathname (pathname input))))))
        (parse-xstream xstream handler)))))
 
+(defun serialize-pt-attributes (plist)
+  (loop
+     for (name value) on plist by #'cddr
+     collect
+     (let ((n (coerce (symbol-name name) 'rod))
+	   (v (etypecase value
+		(symbol (coerce (string-downcase (symbol-name value)) 'rod))
+		(rod value)
+		(string (coerce value 'rod)))))
+       (hax:make-attribute n v t))))
+
 (defun serialize-pt (document handler &key (name "HTML") public-id system-id)
   (hax:start-document handler name public-id system-id)
   (labels ((recurse (pt)
@@ -97,8 +109,9 @@
 	       ((eq (gi pt) :pcdata)
 		(hax:characters handler (pt-attrs pt)))
 	       (t
-		(let ((name (coerce (symbol-name (pt-name pt)) 'rod)))
-		  (hax:start-element handler name (pt-attrs pt))
+		(let ((name (coerce (symbol-name (pt-name pt)) 'rod))
+		      (attrs (serialize-pt-attributes (pt-attrs pt))))
+		  (hax:start-element handler name attrs)
 		  (mapc #'recurse (pt-children pt))
 		  (hax:end-element handler name))))))
     (recurse document))

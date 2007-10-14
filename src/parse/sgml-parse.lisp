@@ -967,6 +967,12 @@
         (t
          (error "foofoo: Hmm ~S ?!" r))))
 
+;;; The renderer might depend on upper-case attribute values, so let's leave
+;;; this off by default.  For the benefit of html <-> xml conversions we
+;;; don't want to check the DTD every time we convert an attribute though,
+;;; so we need this mode for lower-case attribute values.
+(defvar *unmungle-attribute-case* nil)
+
 (defun mungle-attlist (dtd tag atts)
   (mapcan (lambda (x)
             (cond ((atom x)
@@ -974,7 +980,9 @@
                    (multiple-value-bind (slot value) 
                        (sgml::find-slot-value-pair nil dtd tag (mungle x))
                      (when value
-                         (setf value (foofoo value)))
+		       (setf value (foofoo value))
+		       (when *unmungle-attribute-case*
+			 (setf value (rod-downcase value)))) 
                      (and slot
                           (list slot value))))
                   (t
