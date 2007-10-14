@@ -97,7 +97,7 @@
 	       ((eq (gi pt) :pcdata)
 		(hax:characters handler (pt-attrs pt)))
 	       (t
-		(let ((name (symbol-name (pt-name pt))))
+		(let ((name (coerce (symbol-name (pt-name pt)) 'rod)))
 		  (hax:start-element handler name (pt-attrs pt))
 		  (mapc #'recurse (pt-children pt))
 		  (hax:end-element handler name))))))
