@@ -27,11 +27,6 @@
 
 (in-package :cl-user)
 
-(defpackage :closure-html
-  (:use :cl)
-  (:export #:*html-dtd*
-	   #:parse))
-
 (defpackage :html-glisp
   (:use :cl)
   (:export "ALWAYS"
@@ -106,3 +101,31 @@
            ;;
            #:html-parse-file
            ))
+
+(defpackage :closure-html
+  (:use :cl :runes)
+  (:nicknames :chtml)
+  (:use :sgml)
+  (:export #:*html-dtd*
+	   #:parse
+
+	   #:make-octet-vector-sink
+	   #:make-octet-steam-sink
+	   #:make-rod-sink
+	   #+rune-is-character #:make-character-stream-sink
+	   #-rune-is-character #:make-string-sink/utf8
+	   #-rune-is-character #:make-character-stream-sink/utf8
+	   #+rune-is-character #:make-string-sink
+
+	   #:with-html-output
+	   #:with-output-sink
+	   #:with-element
+	   #:attribute
+	   #:text
+	   #:comment
+
+	   #:pt
+	   #:pt-name
+	   #:pt-children
+	   #:pt-parent
+	   #:pt-attrs))

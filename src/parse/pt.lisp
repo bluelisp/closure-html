@@ -214,38 +214,6 @@
   (cond ((null pt) nil)
         ((cons (pt-name pt) (pt-full-name-path (pt-parent pt))))))
 
-(defun walk-lhtml (lhtml tag-callback text-callback)
-  (if (stringp lhtml)
-      (funcall text-callback lhtml)
-      (destructuring-bind (tag &rest body)
-          (if (consp lhtml) lhtml (list lhtml))
-        (destructuring-bind (tag-name &rest attributes)
-            (if (consp tag) tag (list tag))
-          (funcall tag-callback tag-name attributes body)))))
-
-(defun lhtml->pt (lhtml)
-  (walk-lhtml lhtml
-              ;; tag callback
-              (lambda (tag-name attributes body)
-                (make-pt :name tag-name
-                         :attrs (loop :for (key value) :on attributes :by #'cddr
-                                      :collect key
-                                      :collect (etypecase value
-                                                 (string (runes:string-rod value))
-                                                 (sgml::rod value)))
-                         :children (mapcar #'lhtml->pt body)))
-              ;; text callback
-              (lambda (string)
-                (assert (stringp string))
-                (make-pt :name :pcdata :attrs (runes:string-rod string)))))
-
-(defun lhtml-reader (stream subchar arg)
-  (declare (ignore subchar arg))
-  `(lhtml->pt
-    ,(funcall (get-macro-character #\`) stream nil)))
-
-(set-dispatch-macro-character #\# #\T 'lhtml-reader)
-
 (defun map-pt (fun pt)
   "Apply 'fun' to all parse tree nodes in 'pt'."
   (funcall fun pt)
