@@ -129,4 +129,6 @@
 	   #:pt-name
 	   #:pt-children
 	   #:pt-parent
-	   #:pt-attrs))
+	   #:pt-attrs
+
+	   #:make-lhtml-builder))

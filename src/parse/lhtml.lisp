@@ -1,5 +1,55 @@
 (in-package :closure-html)
 
+
+;;;; Parsing into LHTML
+
+(defclass lhtml-builder (hax:abstract-handler)
+  ((stack :initform nil :accessor stack)
+   (root :initform nil :accessor root)))
+
+(defun make-lhtml-builder ()
+  (make-instance 'lhtml-builder))
+
+(defmethod hax:start-document ((handler lhtml-builder) name pubid sysid)
+  (declare (ignore name pubid sysid))
+  nil)
+
+(defun pt-attributes-to-lhtml (attrs)
+  (mapcar (lambda (a)
+	    (list (intern (string-upcase (hax:attribute-name a)) :keyword)
+		  (hax:attribute-value a)))
+	  attrs))
+
+(defmethod hax:start-element ((handler lhtml-builder) name attrs)
+  (let* ((parent (car (stack handler)))
+	 (this (list (intern (string-upcase name) :keyword)
+		     (pt-attributes-to-lhtml attrs))))
+    (push this (stack handler))
+    (if parent
+	(push this (cddr parent))
+	(setf (root handler) this))))
+
+(defmethod hax:characters ((handler lhtml-builder) data)
+  (push data (cddar (stack handler))))
+
+(defmethod hax:comment ((handler lhtml-builder) data)
+  ;; zzz haven't found out what the representation of comments is...
+  data)
+
+(defmethod hax:end-element ((handler lhtml-builder) name)
+  (let ((current (pop (stack handler))))
+    (setf (cddr current) (nreverse (cddr current)))))
+
+(defmethod hax:end-document ((handler lhtml-builder))
+  (root handler))
+
+
+
+;;;; old stuff
+
+#|
+;;; brauchen wir hier alles das noch?
+
 (defun unbreak-utf8 (arr &key (start 0))
   "given an utf-8 string, fix a common trouble with it:
    namely broken non-breaking-space sequences not being prefixed by 194"
@@ -43,6 +93,7 @@
 
 (defun parse-html-to-lhtml (html)
   (cxml-pt-to-lhtml (parse html nil)))
+|#
 
 (defun walk-lhtml (lhtml tag-callback text-callback)
   (if (stringp lhtml)
@@ -53,11 +104,14 @@
             (if (consp tag) tag (list tag))
           (funcall tag-callback tag-name attributes body)))))
 
+
+;;;; Old reader stuff:
+
 (defun lhtml->pt (lhtml)
   (walk-lhtml lhtml
               ;; tag callback
               (lambda (tag-name attributes body)
-                (make-pt :name tag-name
+                (sgml::make-pt :name tag-name
                          :attrs (loop :for (key value) :on attributes :by #'cddr
                                       :collect key
                                       :collect (etypecase value
@@ -67,7 +121,7 @@
               ;; text callback
               (lambda (string)
                 (assert (stringp string))
-                (make-pt :name :pcdata :attrs (runes:string-rod string)))))
+                (sgml::make-pt :name :pcdata :attrs (runes:string-rod string)))))
 
 (defun lhtml-reader (stream subchar arg)
   (declare (ignore subchar arg))
