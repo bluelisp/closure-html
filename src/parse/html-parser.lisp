@@ -65,6 +65,7 @@
 	pt)))
 
 (defun parse (input handler &key pathname)
+  (declare (ignore pathname))
   (etypecase input
     (xstream
      (parse-xstream input handler))

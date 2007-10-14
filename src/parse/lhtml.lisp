@@ -45,6 +45,37 @@
 
 
 
+;;;; Serializing LHTML
+
+(defun serialize-lhtml-attributes (alist)
+  (loop
+     for (name value) in alist
+     collect
+     (let ((n (coerce (symbol-name name) 'rod))
+	   (v (etypecase value
+		(symbol (coerce (string-downcase (symbol-name value)) 'rod))
+		(rod value)
+		(string (coerce value 'rod)))))
+       (hax:make-attribute n v t))))
+
+(defun serialize-lhtml
+    (document handler &key (name "HTML") public-id system-id)
+  (hax:start-document handler name public-id system-id)
+  (labels ((recurse (x)
+	     (typecase x
+	       ((or rod string)
+		(hax:characters handler x))
+	       (t
+		(destructuring-bind (name attrs &rest children) x
+		  (let ((name (coerce (symbol-name name) 'rod))
+			(attrs (serialize-lhtml-attributes attrs)))
+		    (hax:start-element handler name attrs)
+		    (mapc #'recurse children)
+		    (hax:end-element handler name)))))))
+    (recurse document))
+  (hax:end-document handler))
+
+
 ;;;; old stuff
 
 #|

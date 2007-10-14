@@ -125,10 +125,13 @@
 	   #:comment
 
 	   #:make-pt-builder
+	   #:serialize-pt
+	   
 	   #:pt
 	   #:pt-name
 	   #:pt-children
 	   #:pt-parent
 	   #:pt-attrs
 
-	   #:make-lhtml-builder))
+	   #:make-lhtml-builder
+	   #:serialize-lhtml))
