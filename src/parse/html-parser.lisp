@@ -52,15 +52,54 @@
 (defparameter *html-dtd*
   (sgml:parse-dtd '(:public "-//W3C//DTD HTML 4.0 Frameset//EN")))
 
-(defun parse (inputstr)
-  "given a string, produce a sgml:pt, which would be your toplevel parse tree node"
-  (let ((dtd *html-dtd*))
-    (let ((input (runes:make-xstream
-                  (flexi-streams:make-in-memory-input-stream
-                   (flexi-streams:string-to-octets
-                    inputstr :external-format (flexi-streams:make-external-format :utf-8))))))
-      (setf (sgml::a-stream-scratch input)
-            (make-array #.(* 2 4096) :element-type 'runes:rune))
-      (sgml::setup-code-vector input :utf-8)
-      (let ((r (sgml:sgml-parse dtd input)))
-        (sgml::post-mortem-heuristic dtd r)))))
+(defun parse-xstream (input handler)
+  (setf (sgml::a-stream-scratch input)
+	(make-array #.(* 2 4096) :element-type 'runes:rune))
+  (sgml::setup-code-vector input :utf-8)
+  (let* ((dtd *html-dtd*)
+	 (r (sgml:sgml-parse dtd input))
+	 (pt (sgml::post-mortem-heuristic dtd r)))
+    (if handler
+	(serialize-pt pt handler)
+	pt)))
+
+(defun parse (input handler &key pathname)
+  (etypecase input
+    (xstream
+     (parse-xstream input handler))
+    (rod
+     (let ((xstream (make-rod-xstream (string-rod input))))
+;;;        (setf (xstream-name xstream)
+;;; 	     (make-stream-name
+;;; 	      :entity-name "main document"
+;;; 	      :entity-kind :main
+;;; 	      :uri nil))
+       (parse-xstream xstream handler)))
+    (array
+     (parse (make-octet-input-stream input) handler))
+    (pathname
+     (with-open-file (s input :element-type '(unsigned-byte 8))
+       (parse s handler :pathname input)))
+    (stream
+     (let ((xstream (make-xstream input :speed 8192)))
+;;;        (setf (xstream-name xstream)
+;;; 	     (make-stream-name
+;;; 	      :entity-name "main document"
+;;; 	      :entity-kind :main
+;;; 	      :uri (pathname-to-uri
+;;; 		    (merge-pathnames (or pathname (pathname input))))))
+       (parse-xstream xstream handler)))))
+
+(defun serialize-pt (document handler &key (name "HTML") public-id system-id)
+  (hax:start-document handler name public-id system-id)
+  (labels ((recurse (pt)
+	     (cond
+	       ((eq (gi pt) :pcdata)
+		(hax:characters handler (pt-attrs pt)))
+	       (t
+		(let ((name (symbol-name (pt-name pt))))
+		  (hax:start-element handler name (pt-attrs pt))
+		  (mapc #'recurse (pt-children pt))
+		  (hax:end-element handler name))))))
+    (recurse document))
+  (hax:end-document handler))
