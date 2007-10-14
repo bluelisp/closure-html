@@ -116,3 +116,46 @@
 		  (hax:end-element handler name))))))
     (recurse document))
   (hax:end-document handler))
+
+(defclass pt-builder (hax:abstract-handler)
+  ((current :initform nil :accessor current)
+   (root :initform nil :accessor root)))
+
+(defun make-pt-builder ()
+  (make-instance 'pt-builder))
+
+(defmethod hax:start-document ((handler pt-builder) name pubid sysid)
+  (declare (ignore name pubid sysid))
+  nil)
+
+(defun unserialize-pt-attributes (attrs)
+  (loop
+     for a in attrs
+     collect (intern (string-upcase (hax:attribute-name a)) :keyword)
+     collect (hax:attribute-value a)))
+
+(defmethod hax:start-element ((handler pt-builder) name attrs)
+  (let* ((parent (current handler))
+	 (this (sgml::make-pt/low
+		:name (intern (string-upcase name) :keyword)
+		:attrs (unserialize-pt-attributes attrs)
+		:parent parent)))
+    (setf (current handler) this)
+    (if parent
+	(push this (pt-children parent))
+	(setf (root handler) this))))
+
+(defmethod hax:characters ((handler pt-builder) data)
+  (push data (pt-children (current handler))))
+
+(defmethod hax:comment ((handler pt-builder) data)
+  ;; zzz haven't found out what the representation of comments is...
+  data)
+
+(defmethod hax:end-element ((handler pt-builder) name)
+  (let ((current (current handler)))
+    (setf (pt-children current) (nreverse (pt-children current)))
+    (setf (current handler) (pt-parent current))))
+
+(defmethod hax:end-document ((handler pt-builder))
+  (root handler))

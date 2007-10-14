@@ -42,7 +42,7 @@
     (iterate pt)))
 
 (defun parse-html-to-lhtml (html)
-  (cxml-pt-to-lhtml (parse html)))
+  (cxml-pt-to-lhtml (parse html nil)))
 
 (defun walk-lhtml (lhtml tag-callback text-callback)
   (if (stringp lhtml)

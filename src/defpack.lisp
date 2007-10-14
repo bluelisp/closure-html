@@ -124,6 +124,7 @@
 	   #:text
 	   #:comment
 
+	   #:make-pt-builder
 	   #:pt
 	   #:pt-name
 	   #:pt-children
