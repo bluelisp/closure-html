@@ -2,15 +2,13 @@
 
   <h3>Download</h3>
   <p>
-    <strike>
     Download a
-    <a href="http://common-lisp.net/project/closure/download/">tarball</a>.</strike>
-    (Not available yet.)
+    <a href="http://common-lisp.net/project/closure/download/">tarball</a>.
   </p>
   <p>
+    Or get it from
     <a href="http://repo.or.cz/w/closure-html.git">
-      Get it from repo.or.cz using git.
-    </a>
+      repo.or.cz using git</a>.
   </p>
 
   <h3>Installation</h3>

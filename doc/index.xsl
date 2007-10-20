@@ -43,6 +43,72 @@
     <span style="font-size: 12pt">&#x2b17;</span>
   </xsl:template>
 
+  <xsl:template match="example-box">
+    &#160; <!-- sonst zu breit -->
+    <div style="background-color: #ffffff;
+		float: right;
+		width: 30%;
+		text-align: right;
+		margin-right: 2em">
+      <div style="border-bottom: 1px solid #9c0000;
+		  font-weight: bold;
+		  padding-right: 1em;
+		  padding-bottom: 5px">
+	In this example
+      </div>
+      <div style="border-right: 2px solid #9c0000;
+		  background-color: #f7f7f7;
+		  padding-top: 5px;
+		  padding-right: 1em;
+		  padding-bottom: 1em">
+	<xsl:for-each select="fun|macro">
+	  <a href="atdoc/pages/closure-html__{local-name()}__{string()}.html">
+	    <span style="color: #777777">chtml:</span>
+	    <xsl:apply-templates/>
+	  </a>
+	  <br/>
+	</xsl:for-each>
+	<xsl:for-each select="a">
+	  <xsl:apply-templates select="."/>
+	  <br/>
+	</xsl:for-each>
+      </div>
+    </div>
+  </xsl:template>
+
+  <xsl:template match="example">
+    <pre class="example">
+      <xsl:text>* </xsl:text>
+      <xsl:apply-templates/>
+    </pre>
+  </xsl:template>
+
+  <xsl:template match="result">
+    <pre class="result">
+      <xsl:text>=> </xsl:text>
+      <xsl:apply-templates/>
+    </pre>
+  </xsl:template>
+
+  <xsl:template match="toc">
+    <ul>
+      <xsl:for-each select="//section">
+	<li>
+	  <a href="#{generate-id()}">
+	    <xsl:apply-templates/>
+	  </a>
+	</li>
+      </xsl:for-each>
+    </ul>
+  </xsl:template>
+
+  <xsl:template match="section">
+    <h3>
+      <xsl:apply-templates/>
+      <a name="{generate-id()}"/>
+    </h3>
+  </xsl:template>
+
   <xsl:template name="header">
     <div id="header">
       <div style="margin-left: 30px">
@@ -57,6 +123,11 @@
 
   <xsl:template name="sidebar">
     <div class="sidebar">
+      <xsl:if test="/page/@clear-sidebar">
+	<xsl:attribute name="style">
+	  clear: <xsl:value-of select="/page/@clear-sidebar"/>;
+	</xsl:attribute>
+      </xsl:if>
       <div class="sidebar-title">
 	<a href="index.html">Closure HTML</a>
       </div>
@@ -70,9 +141,12 @@
 	    </ul>
 	  </li>
 	  <li>
+	    <a href="examples.html">Simple Examples</a>
+	    <br/>&#160;
+	  </li>
+	  <li>
 	    <a href="hax.html">Manual</a>
 	    <ul class="sub">
-	      <li><a href="hax.html#example">Example</a></li>
 	      <li><a href="hax.html#parser">Parsing</a></li>
 	      <li><a href="hax.html#serialization">Serialization</a></li>
 	      <li><a href="hax.html#lhtml">LHTML: sexp model</a></li>

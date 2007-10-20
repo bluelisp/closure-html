@@ -85,6 +85,22 @@ h1,h2,h3 {
   width: 60%;
 }
 
+.example {
+  background-color: #eeeeee;
+  border: solid 1px #d0d0d0;
+  padding: 1em;
+  margin-bottom: 0;
+  width: 60%;
+}
+
+.result {
+  border: solid 1px #d0d0d0;
+  border-top: 0px;
+  padding: 1em;
+  margin-top: 0;
+  width: 60%;
+}
+
 div.sidebar {
   float: right;
   min-width: 30%;

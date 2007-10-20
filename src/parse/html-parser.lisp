@@ -80,7 +80,7 @@
      (parse (make-octet-input-stream input) handler))
     (pathname
      (with-open-file (s input :element-type '(unsigned-byte 8))
-       (parse s handler :pathname input)))
+       (parse s handler)))
     (stream
      (let ((xstream (make-xstream input :speed 8192)))
 ;;;        (setf (xstream-name xstream)

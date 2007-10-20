@@ -1,6 +1,6 @@
 USER=dlichteblau
 
-all: index.html installation.html hax.html
+all: index.html installation.html hax.html examples.html
 
 %.html: %.xml index.xsl
 	xsltproc index.xsl $< >$@.tmp
