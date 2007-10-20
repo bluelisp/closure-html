@@ -248,3 +248,174 @@
 
        Attribute names are symbols in the keyword package with uppercase
        names.  Attribute values are strings/rods.")
+
+(setf (documentation 'make-octet-vector-sink 'function)
+      "@return{a HAX handler}
+       @short{Returns a sink creating octet vectors.}
+
+       This function creates a serialization sink.  Sinks are HAX handlers
+       that write events in their normal HTML syntax, and return
+       the result from @fun{hax:end-document}, if applicable.
+
+       This particular kind of sink creates an HTML document in an array
+       of @code{(unsigned-byte 8)}.
+
+       @see{make-character-stream-sink}
+       @see{make-octet-stream-sink}
+       @see{make-rod-sink}
+       @see{make-string-sink}")
+
+(setf (documentation 'make-octet-stream-sink 'function)
+      "@return{a HAX handler}
+       @short{Returns a sink writing to an octet stream.}
+
+       This function creates a serialization sink.  Sinks are HAX handlers
+       that write events in their normal HTML syntax.
+
+       This particular kind of sink writen the HTML document to a stream
+       of element-type @code{(unsigned-byte 8)}.
+
+       @see{make-character-stream-sink}
+       @see{make-octet-vector-sink}
+       @see{make-rod-sink}
+       @see{make-string-sink}")
+
+#+rune-is-character
+(setf (documentation 'make-string-sink 'function)
+      "@return{a HAX handler}
+       @short{Returns a sink creating strings.}
+
+       This function creates a serialization sink.  Sinks are HAX handlers
+       that write events in their normal HTML syntax, and return
+       the result from @fun{hax:end-document}, if applicable.
+
+       This particular kind of sink creates an HTML document in a string.
+       The string is @em{not} encoded into an external-format.  When
+       writing this string to a Lisp character stream at a later point, make
+       sure that the stream's external format agrees with the encoding
+       declared by the document, if any.
+
+       @b{Supported only on Lisps with Unicode support.}  On Lisps without
+       Unicode characters, try @em{make-string-sink/utf8} as an alternative
+       that has different encoding behaviour, but still uses strings.  Or
+       use @em{make-rod-sink}, which creates arrays of code points.
+
+       @see{make-character-stream-sink}
+       @see{make-octet-stream-sink}
+       @see{make-octet-vector-sink}
+       @see{make-rod-sink}")
+
+(setf (documentation 'make-rod-sink 'function)
+      "@return{a HAX handler}
+       @short{Returns a sink creating rods.}
+
+       This function creates a serialization sink.  Sinks are HAX handlers
+       that write events in their normal HTML syntax, and return
+       the result from @fun{hax:end-document}, if applicable.
+
+       This particular kind of sink creates an HTML document in a rod.
+
+       On Lisps with Unicode support, @code{make-string-sink} is an alias for
+       this function.
+
+       @see{make-character-stream-sink}
+       @see{make-octet-stream-sink}
+       @see{make-octet-vector-sink}
+       @see{make-string-sink}")
+
+#+rune-is-character
+(setf (documentation 'make-character-stream-sink 'function)
+      "@return{a HAX handler}
+       @short{Returns a sink writing to a character stream.}
+
+       This function creates a serialization sink.  Sinks are HAX handlers
+       that write events in their normal HTML syntax.
+
+       This particular kind of sink writen the HTML document to a stream
+       of element-type @code{character}. The characters written are @em{not}
+       encoded into an external-format. Make sure that the stream's external
+       format agrees with the encoding declared by the document, if any.
+
+       @b{Supported only on Lisps with Unicode support.}  On Lisps without
+       Unicode characters, try @em{make-character-stream-sink/utf8} as
+       an alternative that has different encoding behaviour, but still uses
+       character streams.
+
+       @see{make-octet-stream-sink}
+       @see{make-octet-vector-sink}
+       @see{make-rod-sink}
+       @see{make-string-sink}")
+
+(setf (documentation 'with-element 'function)
+      "@arg[name]{the element's name, a string/rod}
+       @arg[body]{an implicit progn}
+       @return{the value of @var{body}}
+       @short{Generate @fun{hax:start-element} and @fun{hax:end-element}
+         events.}
+
+       Execute @var{body} as an implicit progn.  Send a start-element event to
+       the current sink (before the first child element begins, or the
+       current element ends), including all attributes specified using
+       @fun{attribute} until that point.  Send an end-element event after
+       @var{body} is finished.
+
+       To be used in the extent of an @fun{with-html-output} invocation.")
+
+(setf (documentation 'with-output-sink 'function)
+      "@arg[var]{the variable name, a symbol}
+       @arg[body]{an implicit progn}
+       @return{the value of @var{body}}
+       @short{Bind a variable to the current serialization sink.}
+
+       Execute @var{body} as an implicit progn with @var{var} bound to a
+       serialization sink that @var{body} can safely call HAX functions on.
+
+       To be used in the extent of an @fun{with-html-output} invocation.")
+
+(setf (documentation 'with-html-output 'function)
+      "@arg[sink]{a HAX/SAX handler}
+       @arg[name]{root element name, a rod/string}
+       @arg[public-id]{nil or the Public ID, a rod/string}
+       @arg[system-id]{nil or the System ID/URI, a rod/string}
+       @arg[body]{an implicit progn}
+       @return{the value of @var{body}}
+       @short{Generate @fun{hax:start-document} and @fun{hax:end-document}
+         events.}
+
+       Send a start-document event to the current sink, then execute
+       @var{body} as an implicit progn.  Afterwards, send an end-element
+       event.
+
+       @see{with-output-sink}
+       @see{with-element}
+       @see{attribute}
+       @see{text}
+       @see{comment}")
+
+(setf (documentation 'attribute 'function)
+      "@arg[name]{a string/rod}
+       @arg[value]{a string/rod or other object}
+       @return{the @var{value}}
+       @short{Add an attribute to the current element.}
+
+       To be used in the extent of an @fun{with-element} invocation, this
+       function adds an attribute to the element being serialized.")
+
+(setf (documentation 'text 'function)
+      "@arg[data]{a string/rod}
+       @return{the @var{data}}
+       @short{Write a text node.}
+
+       To be used in the extent of an @fun{with-html-output} invocation, this
+       function serializes a text node.")
+
+(setf (documentation 'comment 'function)
+      "@arg[data]{a string/rod}
+       @return{the @var{data}}
+       @short{Write a comment node.}
+
+       To be used in the extent of an @fun{with-html-output} invocation, this
+       function serializes a comment.")
+
+(setf (documentation '*html-dtd* 'variable)
+      "fixme: exported only for the benefit of Closure")

@@ -110,7 +110,7 @@
 	   #:parse
 
 	   #:make-octet-vector-sink
-	   #:make-octet-steam-sink
+	   #:make-octet-stream-sink
 	   #:make-rod-sink
 	   #+rune-is-character #:make-character-stream-sink
 	   #-rune-is-character #:make-string-sink/utf8
@@ -136,4 +136,41 @@
 
 	   #:lhtml-builder
 	   #:make-lhtml-builder
-	   #:serialize-lhtml))
+	   #:serialize-lhtml)
+  (:documentation
+   "This package exports functions for HTML parsing and serialization.
+
+    In addition, two simple in-memory data structures are included: LHTML, a
+    lisp-list model.  And PT, a simple structure instance model used by
+    Closure internally.
+
+    @begin[Parsing]{section}
+    @aboutfun{parse}
+    @end{section}
+    @begin[Serialization sinks]{section}
+    @aboutfun{make-octet-vector-sink}
+    @aboutfun{make-octet-stream-sink}
+    @aboutfun{make-rod-sink}
+    @aboutfun{make-character-stream-sink}
+    @aboutfun{make-string-sink}
+    @end{section}
+    @begin[Convenience serialization API]{section}
+    @aboutmacro{with-html-output}
+    @aboutmacro{with-element}
+    @aboutmacro{with-output-sink}
+    @aboutfun{attribute}
+    @aboutfun{text}
+    @aboutfun{comment}
+    @end{section}
+    @begin[LHTML model]{section}
+    @aboutfun{make-lhtml-builder}
+    @aboutfun{serialize-lhtml}
+    @end{section}
+    @begin[PT model]{section}
+    @aboutfun{make-pt-builder}
+    @aboutfun{serialize-pt}
+    @aboutfun{pt-name}
+    @aboutfun{pt-children}
+    @aboutfun{pt-parent}
+    @aboutfun{pt-attrs}
+    @end{section}"))
