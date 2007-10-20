@@ -124,6 +124,7 @@
 	   #:text
 	   #:comment
 
+	   #:pt-builder
 	   #:make-pt-builder
 	   #:serialize-pt
 	   
@@ -133,5 +134,6 @@
 	   #:pt-parent
 	   #:pt-attrs
 
+	   #:lhtml-builder
 	   #:make-lhtml-builder
 	   #:serialize-lhtml))

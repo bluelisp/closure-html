@@ -72,6 +72,7 @@ h1,h2,h3 {
 
 #header {
   padding-bottom: 1px;
+  width: 70%;
   border-bottom: 1px solid black;
   font-family: verdana, arial;
   font-size: 15pt;
@@ -81,4 +82,56 @@ h1,h2,h3 {
   background-color: #eeeeee;
   border: solid 1px #d0d0d0;
   padding: 1em;
+  width: 60%;
+}
+
+div.sidebar {
+  float: right;
+  min-width: 30%;
+  padding: 0pt 5pt 5pt 5pt;
+  font-family: verdana, arial;
+}
+
+div.sidebar-title {
+  font-weight: bold;
+  background-color: #9c0000;
+  border: solid #9c0000;
+  border-top-width: 1px;
+  border-bottom-width: 2px;
+  border-left-width: 4px;
+  border-right-width: 0px;
+  padding-left: 1px;
+  margin: 0em 2pt 0px 2em;
+}
+
+div.sidebar-title a {
+  color: #ffffff;
+}
+
+div.sidebar-main {
+  background-color: #f7f7f7;
+  border: solid #9c0000;
+  border-top-width: 0px;
+  border-bottom-width: 0px;
+  border-left-width: 4px;
+  border-right-width: 0px;
+  margin: 0em 2pt 1em 2em;
+  padding: 1em;
+}
+
+div.sidebar ul.main {
+  padding: 0pt 0pt 0pt 1em;
+  margin: 0 0 1em;
+}
+
+div.sidebar ul.sub {
+  list-style-type: square;
+  padding: 0pt 0pt 0pt 1em;
+  margin: 0 0 1em;
+}
+
+div.sidebar ul.hack {
+  padding: 0 0 0 0;
+  margin: 0 0 1em;
+  list-style-type: none;
 }

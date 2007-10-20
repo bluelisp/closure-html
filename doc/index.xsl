@@ -14,12 +14,13 @@
     <html>
       <head>
 	<title>
-	  Closure HTML
+	  <xsl:value-of select="/page/@title"/>
 	</title>
 	<link rel="stylesheet" type="text/css" href="index.css"/>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
       </head>
-      <body style="width: 62em">
+      <body>
+	<xsl:call-template name="sidebar"/>
 	<xsl:call-template name="header"/>
 	<xsl:apply-templates/>
       </body>
@@ -46,8 +47,43 @@
     <div id="header">
       <div style="margin-left: 30px">
 	<b>
-	  <span style="color: #9c0000">Closure HTML</span>
+	  <span style="color: #9c0000">
+	    <xsl:value-of select="/page/@title"/>
+	  </span>
 	</b>
+      </div>
+    </div>
+  </xsl:template>
+
+  <xsl:template name="sidebar">
+    <div class="sidebar">
+      <div class="sidebar-title">
+	<a href="index.html">Closure HTML</a>
+      </div>
+      <div class="sidebar-main">
+	<ul class="main">
+	  <li>
+	    <a href="installation.html">Installing Closure HTML</a>
+	    <ul class="sub">
+	      <li><a href="installation.html#download">Download</a></li>
+	      <li><a href="installation.html#compilation">Installation</a></li>
+	    </ul>
+	  </li>
+	  <li>
+	    <a href="hax.html">Manual</a>
+	    <ul class="sub">
+	      <li><a href="hax.html#example">Example</a></li>
+	      <li><a href="hax.html#parser">Parsing</a></li>
+	      <li><a href="hax.html#serialization">Serialization</a></li>
+	      <li><a href="hax.html#lhtml">LHTML: sexp model</a></li>
+	      <li><a href="hax.html#pt">PT: defstruct model</a></li>
+	      <li><a href="hax.html#haxsax">The cxml bridge</a></li>
+	    </ul>
+	  </li>
+	  <li>
+	    <a href="atdoc/pages/closure-html.html">API documentation</a>
+          </li>
+	</ul>
       </div>
     </div>
   </xsl:template>

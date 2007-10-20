@@ -66,5 +66,7 @@
 			 (:file "lhtml"
 				:depends-on ("html-parser"))
 			 (:file "unparse"
+				:depends-on ("html-parser"))
+			 (:file "documentation"
 				:depends-on ("html-parser")))))))
     :depends-on (:closure-common :flexi-streams))

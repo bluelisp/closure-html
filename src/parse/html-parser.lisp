@@ -64,8 +64,7 @@
 	(serialize-pt pt handler)
 	pt)))
 
-(defun parse (input handler &key pathname)
-  (declare (ignore pathname))
+(defun parse (input handler)
   (etypecase input
     (xstream
      (parse-xstream input handler))

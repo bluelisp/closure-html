@@ -1,9 +1,11 @@
 USER=dlichteblau
 
-all: index.html
+all: index.html installation.html hax.html
 
-index.html: index.xml index.xsl
-	xsltproc index.xsl $< >index.html
+%.html: %.xml index.xsl
+	xsltproc index.xsl $< >$@.tmp
+	mv $@.tmp $@
+	chmod -w $@
 
 .PHONY: push
 push: all
