@@ -132,3 +132,119 @@
 
        @see{parse}
        @see{make-lhtml-builder}")
+
+(setf (documentation 'make-pt-builder 'function)
+      "@return{The @class{pt-builder}, a HAX handler.}
+       @short{Create a HAX handler which builds @class{pt} structures.}
+
+       Example:
+       @begin{pre}
+ (chtml:parse \"<p>nada</p>\" (chtml:make-pt-builder))
+       @end{pre}
+       @begin{code}
+ => #<SGML:PT HTML ..>
+       @end{code}
+
+       @see{parse}
+       @see{serialize-pt}")
+
+(setf (documentation 'pt-builder 'type)
+      "@short{A HAX handler which builds PT structures.}
+
+       PT represents each HTML element as a structure instance of type
+       @class{pt}.
+
+       @see{make-pt-builder}
+       @see{serialize-pt}")
+
+(setf (documentation 'serialize-pt 'function)
+      "@arg[document]{an @class{pt} instance}
+       @arg[handler]{a HAX/SAX handler}
+       @arg[name]{root element name, a rod/string}
+       @arg[public-id]{nil or the Public ID, a rod/string}
+       @arg[system-id]{nil or the System ID/URI, a rod/string}
+       @return{The return value of this function is determined by the
+         @var{handler} argument; see below.}
+       @short{Serialize the PT node into HAX events, sent to the 
+         specified HAX handler.}
+
+       @var{handler} can be a HAX handler
+       (see @class{hax:abstract-handler}) or a SAX handler (see the
+       @a[http://common-lisp.net/project/cxml/sax.html#sax]{SAX protocol in
+       cxml}).
+
+       The result of calling @fun{hax:end-document} on the handler will be
+       returned from this function.
+
+       If @var{system-id} is specified, a doctype will be written
+       according to the arguments @var{name}, @var{public-id}, and
+       @var{system-id}.
+
+       Use this function with a serialization sink to get a string or file
+       with a serialized HTML document, or with a HAX/SAX builder to
+       convert PT into a different representation, like DOM, LHTML, or
+       STP.
+
+       Example:
+       @begin{pre}
+ (let ((x (chtml:parse \"<p>nada</p>\" (chtml:make-pt-builder)))))
+   (chtml:serialize-pt x (chtml:make-string-sink))
+       @end{pre}
+       @begin{code}
+ => \"<HTML><HEAD></HEAD><BODY><P>nada</P></BODY></HTML>\"
+       @end{code}
+
+       @see{parse}
+       @see{make-pt-builder}")
+
+(setf (documentation 'pt 'type)
+      "@short{Represents an HTML element.}
+
+       PT represents each HTML element as a structure instance, named by
+       a keyword symbol.  The children of a PT node are strings (rods)
+       for text nodes, or other PT nodes for elements.
+
+       @see{make-pt-builder}
+       @see{serialize-pt}
+       @see-slot{pt-name}
+       @see-slot{pt-children}
+       @see-slot{pt-parent}
+       @see-slot{pt-attrs}")
+
+(setf (documentation 'pt-name 'function)
+      "@arg[instance]{a @class{pt} node}
+       @return{a keyword symbol}
+       @short{Returns the element's name.}
+
+       HTML element names are symbols in the keyword package with uppercase
+       names.")
+
+(setf (documentation 'pt-children 'function)
+      "@arg[instance]{a @class{pt} node}
+       @return{a list}
+       @short{Returns the element's children.}
+
+       The children of a PT node are strings (rods)
+       for text nodes, or other PT nodes for elements.
+
+       @see{pt-parent}")
+
+(setf (documentation 'pt-parent 'function)
+      "@arg[instance]{a @class{pt} node}
+       @return{nil, or a @class{pt} node}
+       @short{Returns the element's parent node.}
+
+       This slot should refer to the node's parent, if it is included
+       in the list of that node's children.
+
+       @see{pt-children}")
+
+(setf (documentation 'pt-attrs 'function)
+      "@arg[instance]{a @class{pt} node}
+       @return{a plist}
+       @short{Returns the element's attributes as a plist.}
+
+       This plist maps attribute names to their values. 
+
+       Attribute names are symbols in the keyword package with uppercase
+       names.  Attribute values are strings/rods.")
