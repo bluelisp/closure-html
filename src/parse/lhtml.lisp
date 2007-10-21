@@ -47,32 +47,48 @@
 
 ;;;; Serializing LHTML
 
-(defun serialize-lhtml-attributes (alist)
+(defun serialize-lhtml-attributes (alist recode)
+  (declare (ignorable recode))
   (loop
      for (name value) in alist
      collect
-     (let ((n (coerce (symbol-name name) 'rod))
-	   (v (etypecase value
-		(symbol (coerce (string-downcase (symbol-name value)) 'rod))
-		(rod value)
-		(string (coerce value 'rod)))))
+     (let* ((n (symbol-name name))
+	    (n
+	     #+rune-is-character (coerce n 'rod)
+	     #-rune-is-character (funcall recode n))
+	    (v (etypecase value
+		 (symbol (coerce (string-downcase (symbol-name value)) 'rod))
+		 (rod value)
+		 (string
+		  #+rune-is-character (coerce value 'rod)
+		  #-rune-is-character (funcall recode value)))))
        (hax:make-attribute n v t))))
 
 (defun serialize-lhtml
     (document handler &key (name "HTML") public-id system-id)
   (hax:start-document handler name public-id system-id)
-  (labels ((recurse (x)
-	     (typecase x
-	       ((or rod string)
-		(hax:characters handler x))
-	       (t
-		(destructuring-bind (name attrs &rest children) x
-		  (let ((name (coerce (symbol-name name) 'rod))
-			(attrs (serialize-lhtml-attributes attrs)))
-		    (hax:start-element handler name attrs)
-		    (mapc #'recurse children)
-		    (hax:end-element handler name)))))))
-    (recurse document))
+  (let* ((recodep
+	  (or #+rune-is-integer (not (hax:%want-strings-p handler))))
+	 (recode (if recodep
+		     #'utf8-string-to-rod
+		     #'identity)))
+    (labels ((recurse (x)
+	       (typecase x
+		 (rod
+		  (hax:characters handler x))
+		 (string
+		  (hax:characters handler (funcall recode x)))
+		 (t
+		  (destructuring-bind (name attrs &rest children) x
+		    (let* ((name (symbol-name name))
+			   (name
+			    #+rune-is-character (coerce name 'rod)
+			    #-rune-is-character (funcall recode name))
+			   (attrs (serialize-lhtml-attributes attrs recode)))
+		      (hax:start-element handler name attrs)
+		      (mapc #'recurse children)
+		      (hax:end-element handler name)))))))
+      (recurse document)))
   (hax:end-document handler))
 
 

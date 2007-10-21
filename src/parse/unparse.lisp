@@ -17,6 +17,10 @@
     ((ystream :initarg :ystream :accessor sink-ystream)
      (stack :initform nil :accessor stack)))
 
+#-rune-is-character
+(defmethod hax:%want-strings-p ((handler sink))
+  nil)
+
 ;; bisschen unschoen hier SCHON WIEDER die ganze api zu duplizieren, aber die
 ;; ystreams sind noch undokumentiert
 (macrolet ((define-maker (make-sink make-ystream &rest args)
@@ -68,7 +72,7 @@
   (close-ystream (sink-ystream sink)))
 
 (defmethod hax:start-element ((sink sink) name attributes)
-  (let* ((key (find-symbol (string-upcase name) :keyword))
+  (let* ((key (find-symbol (string-upcase (rod-string name)) :keyword))
 	 (elt (and key (sgml::find-element closure-html::*html-dtd* key)))
 	 (attlist (sgml::element-attlist elt)))
     (push (cons name elt) (stack sink))
@@ -76,7 +80,7 @@
     (%write-rod name sink)
     (dolist (a attributes)
       (let* ((aname (hax:attribute-name a))
-	     (akey (find-symbol (string-upcase aname) :keyword))
+	     (akey (find-symbol (string-upcase (string-rod aname)) :keyword))
 	     (att (and akey (assoc akey attlist)))
 	     (values (second att)))
 	(%write-rune #/space sink)

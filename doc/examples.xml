@@ -4,6 +4,15 @@
   </p>
 
   <toc/>
+
+  <div style="width: 60%">
+    <b>Note on non-Unicode Lisps:</b> The examples on this page were
+    written for Lisps with Unicode support.  When using Closure HTML on
+    Lisps without Unicode characters, some changes need to be made.  For
+    example, <tt>make-string-sink</tt> is not available without Unicode
+    support, but <tt>make-string-sink/utf8</tt> can be substituted in
+    some of the examples.
+  </div>
   
   <div style="float: left">
   <section>Parsing a string</section>
