@@ -1,4 +1,4 @@
-<page title="Simple Closure HTML Examples">
+<page title="Closure HTML Examples">
   <p>
     Simple examples using Closure HTML.
   </p>
@@ -30,7 +30,7 @@
   </example-box>
 
   <p>
-    Note that the filename here must be passed as a pathname (written
+    Note that the filename must be passed as a pathname (written
     using <tt>#p</tt>), not just a
     string, because a string would be interpreted as a literal HTML
     document as in the first example above.

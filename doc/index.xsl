@@ -141,21 +141,11 @@
 	    </ul>
 	  </li>
 	  <li>
-	    <a href="examples.html">Simple Examples</a>
+	    <a href="examples.html">Examples</a>
 	    <br/>&#160;
 	  </li>
 	  <li>
-	    <a href="hax.html">Manual</a>
-	    <ul class="sub">
-	      <li><a href="hax.html#parser">Parsing</a></li>
-	      <li><a href="hax.html#serialization">Serialization</a></li>
-	      <li><a href="hax.html#lhtml">LHTML: sexp model</a></li>
-	      <li><a href="hax.html#pt">PT: defstruct model</a></li>
-	      <li><a href="hax.html#haxsax">The cxml bridge</a></li>
-	    </ul>
-	  </li>
-	  <li>
-	    <a href="atdoc/pages/closure-html.html">API documentation</a>
+	    <a href="atdoc9D/index.html">API documentation</a>
           </li>
 	</ul>
       </div>

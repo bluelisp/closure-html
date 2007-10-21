@@ -8,8 +8,9 @@
     by <a href="http://www.stud.uni-karlsruhe.de/~unk6/">Gilbert
     Baumann</a> as part of the Closure web browser.  It was first
     converted into a stand-alone installation by Ignas Mikalajūnas, and
-    finally reassembled for integration with Closure XML and use with
-    the Closure browser by David Lichteblau under its current name.
+    finally reassembled and documented for integration with Closure XML
+    and use with the Closure browser by David Lichteblau under its
+    current name.
   </p>
   <p>
     It available under an MIT-style license.
@@ -43,7 +44,7 @@
   <h3>History</h3>
   <p><b>2007-10-28</b></p>
   <ul>
-    <li>Closure HTML released.</li>
+    <li>Closure HTML released as a stand-alone project.</li>
   </ul>
   <!-- 2002-07-22 -->
   <p><b>2005-03-13</b></p>
