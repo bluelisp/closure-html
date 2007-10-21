@@ -145,7 +145,7 @@
 	    <br/>&#160;
 	  </li>
 	  <li>
-	    <a href="atdoc9D/index.html">API documentation</a>
+	    <a href="atdoc/index.html">API documentation</a>
           </li>
 	</ul>
       </div>
