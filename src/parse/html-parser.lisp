@@ -171,7 +171,11 @@
 	(setf (root handler) this))))
 
 (defmethod hax:characters ((handler pt-builder) data)
-  (push data (pt-children (current handler))))
+  (push (sgml::make-pt/low
+	 :name :pcdata
+	 :attrs data
+	 :parent (current handler))
+	(pt-children (current handler))))
 
 (defmethod hax:comment ((handler pt-builder) data)
   ;; zzz haven't found out what the representation of comments is...

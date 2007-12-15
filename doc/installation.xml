@@ -6,9 +6,8 @@
     <a href="http://common-lisp.net/project/closure/download/">tarball</a>.
   </p>
   <p>
-    Or get it from
-    <a href="http://repo.or.cz/w/closure-html.git">
-      repo.or.cz using git</a>.
+    Or get it from git://repo.or.cz/closure-html.git
+    (<a href="http://repo.or.cz/w/closure-html.git">gitweb</a>)
   </p>
 
   <h3>Installation</h3>
