@@ -110,7 +110,8 @@
 		 (string (coerce value 'rod)))))
        (hax:make-attribute n v t))))
 
-(defun serialize-pt (document handler &key (name "HTML") public-id system-id)
+(defun serialize-pt (document handler
+		     &key (name "HTML") public-id system-id (documentp t))
   (let* ((recodep (or #+rune-is-integer (hax:%want-strings-p handler)))
 	 (recode
 	  (if recodep
@@ -119,7 +120,8 @@
 		    (rod-to-utf8-string rod)
 		    rod))
 	      #'identity)))
-    (hax:start-document handler name public-id system-id)
+    (when documentp
+      (hax:start-document handler name public-id system-id))
     (labels ((recurse (pt)
 	       (cond
 		 ((eq (gi pt) :pcdata)
@@ -136,7 +138,8 @@
 		    (mapc #'recurse (pt-children pt))
 		    (hax:end-element handler name))))))
       (recurse document))
-    (hax:end-document handler)))
+    (when documentp
+      (hax:end-document handler))))
 
 (defclass pt-builder (hax:abstract-handler)
   ((current :initform nil :accessor current)
