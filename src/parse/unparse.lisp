@@ -73,8 +73,9 @@
 
 (defmethod hax:start-element ((sink sink) name attributes)
   (let* ((key (find-symbol (string-upcase (rod-string name)) :keyword))
-	 (elt (and key (sgml::find-element closure-html::*html-dtd* key)))
-	 (attlist (sgml::element-attlist elt)))
+	 (elt
+	  (and key (sgml::find-element closure-html::*html-dtd* key nil nil)))
+	 (attlist (and elt (sgml::element-attlist elt))))
     (push (cons name elt) (stack sink))
     (%write-rune #/< sink)
     (%write-rod name sink)
