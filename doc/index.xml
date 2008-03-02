@@ -42,11 +42,33 @@
   </ul>
 
   <h3>History</h3>
+  <p><b>2008-03-dd</b></p>
+  <ul>
+    <li>
+      Changes in closure-common:
+      <ul>
+	<li>
+	  Use 21 bit characters on Lisp offering them.
+	</li>
+	<li>
+	  New event HAX:UNESCAPED for unescaped characters.
+	</li>
+	<li>
+	  Allow Microsoft BOM (thanks to Ivan Shvedunov)
+	</li>
+      </ul>
+    </li>
+    <li>
+      Fixed serialization of unknown elements.
+    </li>
+    <li>
+      New argument documentp to serialize-pt.
+    </li>
+  </ul>
   <p><b>2007-10-28</b></p>
   <ul>
     <li>Closure HTML released as a stand-alone project.</li>
   </ul>
-  <!-- 2002-07-22 -->
   <p><b>2005-03-13</b></p>
   <ul>
     <li>Closure released unter an MIT-style license.</li>
