@@ -89,7 +89,7 @@
 	(unless (and att (listp values) (eq (car att) (car values)))
 	  (%write-rune #/= sink)
 	  (%write-rune #/\" sink)
-	  (unparse-string (hax:attribute-value a) sink)
+	  (unparse-attribute-string (hax:attribute-value a) sink)
 	  (%write-rune #/\" sink))))
     (%write-rune #/> sink)))
 
@@ -125,6 +125,10 @@
   (let ((y (sink-ystream sink)))
     (loop for rune across str do (unparse-datachar rune y))))
 
+(defun unparse-attribute-string (str sink)
+  (let ((y (sink-ystream sink)))
+    (loop for rune across str do (unparse-attribute-char rune y))))
+
 (defun unparse-datachar (c ystream)
   (cond ((rune= c #/&) (write-rod '#.(string-rod "&amp;") ystream))
         ((rune= c #/<) (write-rod '#.(string-rod "&lt;") ystream))
@@ -141,6 +145,14 @@
         ((rune= c #/<) (write-rod '#.(string-rod "&lt;") ystream))
         ((rune= c #/>) (write-rod '#.(string-rod "&gt;") ystream))
         ((rune= c #/\") (write-rod '#.(string-rod "&quot;") ystream))
+        ((rune= c #/U+000D) (write-rod '#.(string-rod "&#13;") ystream))
+        (t
+          (write-rune c ystream))))
+
+(defun unparse-attribute-char (c ystream)
+  (cond ((rune= c #/&) (write-rod '#.(string-rod "&amp;") ystream))
+        ((rune= c #/\") (write-rod '#.(string-rod "&quot;") ystream))
+        ((rune= c #/U+000A) (write-rod '#.(string-rod "&#10;") ystream))
         ((rune= c #/U+000D) (write-rod '#.(string-rod "&#13;") ystream))
         (t
           (write-rune c ystream))))

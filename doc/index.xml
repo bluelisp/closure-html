@@ -59,7 +59,22 @@
       </ul>
     </li>
     <li>
-      Fixed serialization of unknown elements.
+      Serialization fixes:
+      <ul>
+	<li>
+	  Fixed serialization of unknown elements.
+	</li>
+	<li>
+	  Implemented hax:unescaped on sinks.
+	</li>
+	<li>
+	  Fixed contents of script and style to be written without
+	  escaping by the sink.
+	</li>
+	<li>
+	  Don't escape &lt; in attributes.
+	</li>
+      </ul>
     </li>
     <li>
       New argument documentp to serialize-pt.
