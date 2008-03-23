@@ -90,40 +90,45 @@
 	  (%write-rune #/= sink)
 	  (%write-rune #/\" sink)
 	  (let ((value (hax:attribute-value a)))
-	    (when (uri-attribute-p aname)
+	    (when (uri-attribute-p name aname)
 	      (setf value (escape-uri-attribute value)))
 	    (unparse-attribute-string value sink))
 	  (%write-rune #/\" sink))))
     (%write-rune #/> sink)))
 
-;;; everything written as %URI in the DTD.  Complete list per element,
-;;; as found in the HTML 4.01 Strict DTD
-;;;
-;;; a          href
-;;; area       href
-;;; link       href
-;;; img        src longdesc usemap
-;;; object     classid codebase data usemap
-;;; q          cite
-;;; blockquote cite
-;;; inl        cite
-;;; del        cite
-;;; form       action
-;;; input      src usemap
-;;; head       profile
-;;; base       href
-;;; script     src for
-;;;
-;;; plus the reserved attribute datasrc.
-(defun uri-attribute-p (name)
-  (find (rod-downcase name)
-	'(#"action" #"cite" #"classid" #"codebase" #"data" #"for" #"href"
-	  #"longdesc" #"profile" #"src" #"usemap")
-	:test 'rod=))
+;;; everything written as %URI in the DTD:
+(defun uri-attribute-p (ename aname)
+  (find (rod-downcase aname)
+	(cdr (find (rod-downcase ename)
+		   '((#"a"          #"href")
+		     (#"area"       #"href")
+		     (#"link"       #"href")
+		     (#"img"        #"src" #"longdesc" #"usemap")
+		     (#"object"     #"classid" #"codebase" #"data" #"usemap")
+		     (#"q"          #"cite")
+		     (#"blockquote" #"cite")
+		     (#"inl"        #"cite")
+		     (#"del"        #"cite")
+		     (#"form"       #"action")
+		     (#"input"      #"src" #"usemap")
+		     (#"head"       #"profile")
+		     (#"base"       #"href")
+		     (#"script"     #"src"  ;; #"for"
+		      ))
+		   :key #'car
+		   :test #'rod=))
+	:test #'rod=))
 
 (defun escape-uri-attribute (x)
-  ;; implementme
-  x)
+  (string-rod
+   (with-output-to-string (s)
+     (loop
+	for c across (rod-to-utf8-string x)
+	for code = (char-code c)
+	do
+	  (if (< code 128)
+	      (write-char c s)
+	      (format s "%~2,'0X" code))))))
 
 (defmethod hax:end-element
     ((sink sink) name)

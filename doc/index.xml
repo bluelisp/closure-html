@@ -74,6 +74,12 @@
 	<li>
 	  Don't escape &lt; in attributes.
 	</li>
+	<li>
+	  Don't escape &amp;{ in attributes.
+	</li>
+	<li>
+	  Escape non-ASCII characters in URIs.
+	</li>
       </ul>
     </li>
     <li>
