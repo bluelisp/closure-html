@@ -108,7 +108,12 @@
 
 (defmethod hax:characters ((sink sink) data)
   (let ((y (sink-ystream sink)))
-    (loop for c across data do (unparse-datachar-readable c y))))
+    (if (find (caar (stack sink)) '("script" "style") :test 'equalp)
+	(write-rod data (sink-ystream sink))
+	(loop for c across data do (unparse-datachar-readable c y)))))
+
+(defmethod hax:unescaped ((sink sink) data)
+  (%write-rod data sink))
 
 (defmethod hax:comment ((sink sink) data)
   ;; XXX signal error if body is unprintable?
