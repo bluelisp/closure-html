@@ -89,9 +89,41 @@
 	(unless (and att (listp values) (eq (car att) (car values)))
 	  (%write-rune #/= sink)
 	  (%write-rune #/\" sink)
-	  (unparse-attribute-string (hax:attribute-value a) sink)
+	  (let ((value (hax:attribute-value a)))
+	    (when (uri-attribute-p aname)
+	      (setf value (escape-uri-attribute value)))
+	    (unparse-attribute-string value sink))
 	  (%write-rune #/\" sink))))
     (%write-rune #/> sink)))
+
+;;; everything written as %URI in the DTD.  Complete list per element,
+;;; as found in the HTML 4.01 Strict DTD
+;;;
+;;; a          href
+;;; area       href
+;;; link       href
+;;; img        src longdesc usemap
+;;; object     classid codebase data usemap
+;;; q          cite
+;;; blockquote cite
+;;; inl        cite
+;;; del        cite
+;;; form       action
+;;; input      src usemap
+;;; head       profile
+;;; base       href
+;;; script     src for
+;;;
+;;; plus the reserved attribute datasrc.
+(defun uri-attribute-p (name)
+  (find (rod-downcase name)
+	'(#"action" #"cite" #"classid" #"codebase" #"data" #"for" #"href"
+	  #"longdesc" #"profile" #"src" #"usemap")
+	:test 'rod=))
+
+(defun escape-uri-attribute (x)
+  ;; implementme
+  x)
 
 (defmethod hax:end-element
     ((sink sink) name)
@@ -127,7 +159,19 @@
 
 (defun unparse-attribute-string (str sink)
   (let ((y (sink-ystream sink)))
-    (loop for rune across str do (unparse-attribute-char rune y))))
+    (loop
+       for i from 1
+       for c across str
+       do
+	 (cond ((rune= c #/&)
+		(if (and (< i (length str)) (rune= (rune str i) #/{))
+		    (write-rune c y)
+		    (write-rod '#.(string-rod "&amp;") y)))
+	       ((rune= c #/\") (write-rod '#.(string-rod "&quot;") y))
+	       ((rune= c #/U+000A) (write-rod '#.(string-rod "&#10;") y))
+	       ((rune= c #/U+000D) (write-rod '#.(string-rod "&#13;") y))
+	       (t
+		(write-rune c y))))))
 
 (defun unparse-datachar (c ystream)
   (cond ((rune= c #/&) (write-rod '#.(string-rod "&amp;") ystream))
@@ -145,14 +189,6 @@
         ((rune= c #/<) (write-rod '#.(string-rod "&lt;") ystream))
         ((rune= c #/>) (write-rod '#.(string-rod "&gt;") ystream))
         ((rune= c #/\") (write-rod '#.(string-rod "&quot;") ystream))
-        ((rune= c #/U+000D) (write-rod '#.(string-rod "&#13;") ystream))
-        (t
-          (write-rune c ystream))))
-
-(defun unparse-attribute-char (c ystream)
-  (cond ((rune= c #/&) (write-rod '#.(string-rod "&amp;") ystream))
-        ((rune= c #/\") (write-rod '#.(string-rod "&quot;") ystream))
-        ((rune= c #/U+000A) (write-rod '#.(string-rod "&#10;") ystream))
         ((rune= c #/U+000D) (write-rod '#.(string-rod "&#13;") ystream))
         (t
           (write-rune c ystream))))
