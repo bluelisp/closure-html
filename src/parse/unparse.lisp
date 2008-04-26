@@ -97,10 +97,13 @@
     (%write-rune #/> sink)))
 
 ;;; everything written as %URI in the DTD:
+;;;
+;;; a/@name shouldn't be in here according to that rule, but
+;;; the XSLT test suite wants it.
 (defun uri-attribute-p (ename aname)
   (find (rod-downcase aname)
 	(cdr (find (rod-downcase ename)
-		   '((#"a"          #"href")
+		   '((#"a"          #"href" #"name")
 		     (#"area"       #"href")
 		     (#"link"       #"href")
 		     (#"img"        #"src" #"longdesc" #"usemap")
