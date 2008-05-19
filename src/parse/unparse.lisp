@@ -30,7 +30,7 @@
 		(let* ((encoding (or encoding "UTF-8"))
 		       (ystream (,make-ystream ,@args)))
 		  (setf (ystream-encoding ystream)
-			(cxml::find-output-encoding encoding))
+			(runes:find-output-encoding encoding))
 		  (apply #'make-instance
 		       'sink
 		       :ystream ystream
