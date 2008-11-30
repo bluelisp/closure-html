@@ -1,8 +1,9 @@
-(asdf:operate 'asdf:load-op :closure-html)
 (asdf:operate 'asdf:load-op :atdoc)
-(atdoc:generate-documentation
+(asdf:operate 'asdf:load-op :closure-html)
+
+(atdoc:generate-html-documentation
  '(:chtml :hax)
- "/home/david/src/lisp/closure-html/doc/atdoc/"
- :index-title "Closure HTML API reference"
- :heading "Closure HTML"
- :css "cxml.css")
+ (merge-pathnames
+  "doc/atdoc/"
+  (asdf:component-relative-pathname (asdf:find-system :closure-html)))
+ :heading "Closure HTML")

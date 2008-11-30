@@ -4,7 +4,7 @@ all: index.html installation.html hax.html examples.html
 
 %.html: %.xml index.xsl
 	xsltproc index.xsl $< >$@.tmp
-	mv $@.tmp $@
+	mv -f $@.tmp $@
 	chmod -w $@
 
 .PHONY: push
