@@ -33,10 +33,10 @@
 
 (defparameter sgml::*simple-catalog*
   (let ((base
-	 (merge-pathnames
-	  "resources/"
-	  (asdf:component-relative-pathname
-	   (asdf:find-system :closure-html)))))
+        (merge-pathnames
+         (make-pathname :directory '(:relative "resources") :type :unspecific)
+         (asdf:component-relative-pathname
+          (asdf:find-system :closure-html)))))
     (loop
        :for (name . filename)
        :in '(("-//W3O//DTD W3 HTML 3.0//EN" . "dtd/HTML-3.0")

@@ -361,7 +361,10 @@
                (a-unread-byte ch input)
                (return))
               ((rune= ch #/&)
-               (setf sp (read-entity-ref input dtd sp)))
+               (setf sp (read-entity-ref input dtd sp))
+               (if (>= sp se)  ;read-entity-ref may enlarge scratchpad
+                 (setf scratch (a-stream-scratch input)
+                       se (length scratch))))
               (t
                (setf (aref scratch sp) ch)    ;recode character read
                (setf sp (the fixnum (+ sp 1)))
@@ -544,7 +547,9 @@
 (defun read-start-tag (input dtd)
   (multiple-value-bind (name atts) (read-name-and-attributes input dtd)
     (let ((ch (a-read-byte input)))
-      (cond ((rune= ch #/>)
+      (cond ((null ch)
+            (read-tag-error input "EOF inside tag"))
+           ((rune= ch #/>)
              (values :start-tag name atts))
             ((rune= ch #/<)
              (parse-warn input 3 
@@ -576,7 +581,7 @@
         (atts nil))
     (loop
       (skip-white-space input)
-      (cond ((member (a-peek-byte input) '(#/< #/> #//) :test #'rune=)
+      (cond ((member (a-peek-byte input) '(#/< #/> #//) :test #'eql)
              (return)))
       (push (read-attribute input dtd) atts))
     (values name (nreverse atts)) ))
