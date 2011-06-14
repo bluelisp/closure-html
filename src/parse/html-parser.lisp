@@ -101,16 +101,20 @@
 ;;; 		    (merge-pathnames (or pathname (pathname input))))))
        (parse-xstream xstream handler)))))
 
+(defun good-attribute-name-p (name)
+  (and (cxml::valid-name-p name)
+       (not (or (string-equal name "xmlns")
+		(position #\: name)))))
+
 (defun serialize-pt-attributes (plist recode)
   (loop
      for (name value) on plist by #'cddr
-     unless
-       ;; better don't emit as HAX what would be bogus as SAX anyway
-       (string-equal name "xmlns")
+     for n = #+rune-is-character (coerce (symbol-name name) 'rod)
+	     #-rune-is-character (symbol-name name)
+     ;; don't emit as HAX what would be bogus as SAX anyway
+     if (good-attribute-name-p n)
      collect
-     (let* ((n #+rune-is-character (coerce (symbol-name name) 'rod)
-	       #-rune-is-character (symbol-name name))
-	    (v (etypecase value
+     (let ((v (etypecase value
 		 (symbol (coerce (string-downcase (symbol-name value)) 'rod))
 		 (rod (funcall recode value))
 		 (string (coerce value 'rod)))))
