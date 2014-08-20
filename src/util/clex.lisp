@@ -3,7 +3,7 @@
 ;;;     Title: A flex like scanner generator for Common LISP
 ;;;   Created: 1997-10-12
 ;;;    Author: Gilbert Baumann <gilbert@base-engineering.com>
-;;;   License: LGPL (See file COPYING for details).
+;;;   License: MIT style (see below)
 ;;; --------------------------------------------------------------------------------------
 ;;;  (c) copyright 1997-1999 by Gilbert Baumann
 

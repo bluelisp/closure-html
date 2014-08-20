@@ -2,7 +2,7 @@
 ;;; ---------------------------------------------------------------------------
 ;;;     Title: Package definitions for the html parser packages
 ;;;    Author: Gilbert Baumann <gilbert@base-engineering.com>
-;;;   License: LGPL (See file COPYING for details).
+;;;   License: MIT style (see below)
 ;;; ---------------------------------------------------------------------------
 ;;;  (c) copyright 2002 by Gilbert Baumann
 
