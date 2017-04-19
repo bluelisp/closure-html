@@ -72,6 +72,8 @@
 
 (defmacro fixnum= (x y) `(= (the fixnum ,x) (the fixnum ,y)))
 
+(defparameter *debug-dumping* nil)
+
 (defun make-parser (grammar lex endMarker &key (name 'lalr-parser))
   "Takes a grammar and produces the Lisp code for a parser for that grammar"
   (setq *ENDMARKER* endMarker)
@@ -101,12 +103,7 @@
   (build-table)
   (when (and (listp *lalr-debug*) (member 'print-table *lalr-debug*))
     (Print-Table stateList))
-  (format T "~%; Table ready (total of ~R rules --> ~R states)."
-	  (length grammar)
-	  (length stateList))
-  (format T "~%; Dumping: ")
-  (prog1 (build-parser name)
-    (format T "~&")  ))
+  (build-parser name))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;
@@ -477,8 +474,6 @@
 
 (defun translate-state (state)
   "translates a state into lisp code that could appear in a TAGBODY form"
-  ;;(format T " ~(~S~)" (state-name state))
-  (princ #\.)
   (let ((reduces (compact-items 
                   (delete-if #'(lambda (i) (item-right i))
                              (close-items 

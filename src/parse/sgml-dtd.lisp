@@ -76,10 +76,6 @@
   (gethash name *entities*))
 
 (defun add-entity (name value)
-  (if (> (length value) 60)
-      (format T "~&;; % ~A <- '~A [...]' " 
-              name (substitute #\space #\newline (subseq value 0 60)))
-    (format T "~&;; % ~A <- '~A' " name (substitute #\space #\newline value)))
   (unless (gethash name *entities*)
     (setf (gethash name *entities*) value)))
 
@@ -193,8 +189,6 @@
   (<one-def> --> definition (action (cond ((eq (car $1) 'def-my-entity)
                                            (add-entity (second $1) (third $1)))
 					  (t
-					   (case (car $1)
-					     ((defelement defattlist) (princ #\.) (finish-output *standard-output*)))
 					   (process-dtd-def *dtd* $1)))))
 
   (<ignored-definitions> --> ignored-definition :close <ignored-definitions> (action nil))
@@ -596,7 +590,6 @@
                      (t
                       (warn "Ambiguous : ~S ~S." a b)))))
       (dolist (a (cons ':%top (all-elms dtd)))
-        (princ "*") (finish-output)
         (dolist (b (cons ':%top (all-elms dtd)))
           (let ((bs (elm-stag b))
                 (be (elm-etag b)))
