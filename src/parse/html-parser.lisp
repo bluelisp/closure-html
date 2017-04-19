@@ -106,7 +106,10 @@
      for (name value) on plist by #'cddr
      unless
        ;; better don't emit as HAX what would be bogus as SAX anyway
-       (string-equal name "xmlns")
+       (let ((s (string name))
+             (prefix "xmlns:"))
+         (or (string-equal s "xmlns")
+             (string-equal s prefix :end1 (min (length s) (length prefix)))))
      collect
      (let* ((n #+rune-is-character (coerce (symbol-name name) 'rod)
 	       #-rune-is-character (symbol-name name))

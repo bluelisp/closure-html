@@ -182,7 +182,8 @@
   (or (name-start-rune-p char)
       (digit-rune-p char) 
       (rune= char #/.) 
-      (rune= char #/-)))
+      (rune= char #/-)
+      (rune= char #/:)))
 
 (definline sloopy-name-rune-p (char)
   (or (name-rune-p char)
