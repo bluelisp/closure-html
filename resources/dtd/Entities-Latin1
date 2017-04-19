@@ -192,3 +192,5 @@
                                   U+00FE ISOlat1 -->
 <!ENTITY yuml   CDATA "&#255;" -- latin small letter y with diaeresis,
                                   U+00FF ISOlat1 -->
+<!ENTITY apos   CDATA "&#39;"  -- apostrophe,
+                                  U+0027 ISOlat1 -->
